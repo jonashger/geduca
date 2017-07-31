@@ -1,0 +1,60 @@
+{
+    "name": "theme-base",
+    "toolkit": "modern",
+    "type": "theme",
+    "framework": "ext",
+    "creator": "Sencha",
+    "summary": "Base Sencha Touch Theme",
+    "detailedDescription": "Base Sencha Touch Theme",
+
+    "version": "6.0.0.640",
+    "compatVersion": "1.0.0",
+    "format": "1",
+
+    "slicer": {
+        "js": [
+            {
+                "path": "${package.dir}/sass/example/custom.js",
+                "isWidgetManifest": true
+            }
+        ]
+    },
+
+    "output": "${workspace.subpkg.prefix}/${package.name}",
+    "local": true,
+
+    "js":[
+        {
+            "path":"/~cmd/extensions/sencha-fashion/fashion/fashion.js",
+            "bootstrap": true,
+            "remote": true,
+            "platform": ["fashion"],
+            "isSdk": false
+        },
+        {
+            "path":"/~cmd/extensions/sencha-fashion/sass-compiler.js",
+            "bootstrap": true,
+            "remote": true,
+            "platform": ["fashion"],
+            "isSdk": false
+        }
+    ],
+
+    "sass": {
+       
+        "namespace": "Ext",
+
+       
+        "etc": "${package.dir}/sass/etc/all.scss",
+
+     
+        "var": "${package.dir}/sass/var",
+
+        "src": "${package.dir}/sass/src"
+    },
+
+   
+    "classpath": "${package.dir}/src",
+
+    "overrides": "${package.dir}/overrides"
+}

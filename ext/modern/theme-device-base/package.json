@@ -1,0 +1,36 @@
+{
+    "name": "theme-device-base",
+
+
+    "type": "theme",
+
+    "extend": "theme-base",
+    "toolkit": "modern",
+    "creator": "Sencha",
+    "summary": "A Sencha-internal base theme for device-specific themes",
+    "detailedDescription": "This theme contains a set of CSS rules use by the device themes.  Users should not extend this theme directly.",
+    "version": "6.0.0.640",
+    "compatVersion": "1.0.0",
+    "format": "1",
+    "output": "${package.dir}/build",
+
+    "local": true,
+
+    "sass" : {
+        "namespace": "Ext",
+
+        "etc": "${package.dir}/sass/etc/all.scss,${package.dir}/${toolkit.name}/sass/etc/all.scss",
+
+        "var": "${package.dir}/sass/var,${package.dir}/${toolkit.name}/sass/var",
+
+        "src": "${package.dir}/sass/src,${package.dir}/${toolkit.name}/sass/src"
+    },
+    "classpath": "${package.dir}/src,${package.dir}/${toolkit.name}/src",
+
+    "overrides": "${package.dir}/overrides,${package.dir}/${toolkit.name}/overrides",
+    "framework": "ext",
+
+    "requires": [
+        "font-pictos"
+    ]
+}

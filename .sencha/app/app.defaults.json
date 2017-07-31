@@ -1,0 +1,132 @@
+{
+    "indexHtmlPath": "index.html",
+    "js": [
+        {
+            "path": "app.js",
+            "bundle": true
+        }
+    ],
+    "css": [
+        {
+            "path": "${build.out.css.path}",
+            "bundle": true
+        }
+    ],
+
+    "compressor": null,
+
+    "production": {
+        "compressor": {
+            "type": "cmd"
+        },
+        "cache": {
+            "enable": true
+        }
+    },
+
+    "testing": {
+    },
+
+    "development": {
+    },
+
+    "bootstrap":{
+        "base": "${app.dir}"
+    },
+
+    "output": {
+        "base": "${workspace.build.dir}/${build.environment}/${app.name}",
+        "appCache": {
+            "enable": false
+        },
+        "microloader": {
+            "enable": true
+        }
+    },
+
+    "cache": {
+        "enable": false,
+        "deltas": "deltas"
+    },
+
+    "cordova": {
+        "config": {
+            "name": "${app.name}",
+            "id": "com.domain.${app.name}",
+            "verbose": false,
+            "target": "",
+            "path": "${app.dir}/cordova"
+        },
+        "js": [
+            {
+                "path": "cordova.js",
+                "remote": true,
+                "priority": 1000
+            }
+        ],
+        "microloader": "${app.config.dir}/Microloader.js",
+        "output": {
+            "base": "${app.cordova.config.path}/www",
+            "page": "index.html",
+            "manifest": "${build.id}.json",
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+
+    "phonegap": {
+        "config": {
+            "name": "${app.name}",
+            "id": "com.domain.${app.name}",
+            "remote": false,
+            "verbose": false,
+            "path": "${app.dir}/phonegap"
+        },
+        "js": [
+            {
+                "path": "cordova.js",
+                "remote": true,
+                "priority": 1000
+            }
+        ],
+        "microloader": "${app.config.dir}/Microloader.js",
+        "output": {
+            "base": "${app.phonegap.config.path}/www",
+            "page": "index.html",
+            "manifest": "${build.id}.json",
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+
+    "slicer": {
+        "js": [
+            {
+                "path": "${app.dir}/sass/example/custom.js",
+                "isWidgetManifest": true
+            }
+        ],
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+
+    "fashion": {
+        "inliner": {
+            "enable": false
+        }
+    }
+}

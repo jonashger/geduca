@@ -1,0 +1,55 @@
+{
+    "name": "font-pictos",
+
+  
+    "type": "code",
+
+    "creator": "Sencha",
+
+  
+    "summary": "Package wrapper for Pictos Web Font",
+
+   
+    "detailedDescription": "Sencha Cmd package wrapper for Pictos Web Font (http://pictos.cc/classic)",
+
+    "classpath": "${package.dir}/src,${package.dir}/${toolkit.name}/src",
+
+   
+    "overrides": "${package.dir}/overrides,${package.dir}/${toolkit.name}/overrides",
+
+    
+    "version": "6.0.0.640",
+
+  
+    "compatVersion": "1.0.0",
+
+    "format": "1",
+
+    "slicer": null,
+
+    "output": "${package.dir}/build",
+
+  
+    "local": true,
+
+  
+    "framework": "ext",
+    "toolkit": "modern",
+
+    "sass": {
+       
+        "namespace": "Ext",
+
+       
+        "etc": "${package.dir}/sass/etc/all.scss",
+
+       
+        "var": "${package.dir}/sass/var",
+
+       
+        "src": "${package.dir}/sass/src/all.scss"
+    },
+
+
+    "requires": []
+}
