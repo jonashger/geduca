@@ -1,6 +1,5 @@
 package br.net.fireup.geduca.dao;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 

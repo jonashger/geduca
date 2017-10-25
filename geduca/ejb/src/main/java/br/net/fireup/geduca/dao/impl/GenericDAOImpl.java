@@ -1,14 +1,22 @@
 package br.net.fireup.geduca.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 import br.net.fireup.geduca.dao.GenericDAO;
 
@@ -23,12 +31,19 @@ import br.net.fireup.geduca.dao.GenericDAO;
 
 public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 
-	@Inject
+	@PersistenceContext
 	protected EntityManager entityManager;
+
+	@Resource
+	private SessionContext sessionContext;
 
 	private Class<T> persistedClass;
 
-	protected GenericDAOImpl() {
+	@SuppressWarnings("unchecked")
+	public GenericDAOImpl() {
+		Type t = getClass().getGenericSuperclass();
+		ParameterizedType pt = (ParameterizedType) t;
+		persistedClass = (Class<T>) pt.getActualTypeArguments()[0];
 	}
 
 	public void setPersistClass(Class<T> pc) {
@@ -50,12 +65,39 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 
 	@Override
 	public T salvar(T entity) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("primary");
-		EntityTransaction t = getEntityManager().getTransaction();
-		t.begin();
-		getEntityManager().merge(entity);
-		getEntityManager().flush();
-		t.commit();
+		UserTransaction  t = sessionContext.getUserTransaction();
+		try {
+			t.begin();
+		} catch (NotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			try {
+				t.commit();
+			} catch (SecurityException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (RollbackException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (HeuristicMixedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (HeuristicRollbackException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SystemException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return entity;
 	}
 
