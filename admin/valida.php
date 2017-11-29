@@ -3,8 +3,7 @@ include_once('conexao.php');
 
 if	((isset($_POST['email']))  && (isset($_POST['password']))){
 	$usuario = $_POST['email'];
-	$senha = $_POST['password'];
-	//$senha = md5($_POST['password']); Usuários devem ser salvos com md5 também.
+	$senha = md5($_POST['password']);
 
 	$sql = "SELECT id_pessoa, cd_nivel_permissao, vl_email, vl_nome FROM tb_pessoa WHERE vl_email = ? AND vl_password = ?";
 	$stmt = $pdo->prepare( $sql );
