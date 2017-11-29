@@ -35,9 +35,14 @@
      </tr>
    </thead>
    <tbody>
-     <?php $sql = "SELECT t.id, t.nome, COUNT(m.id) AS qtdAlunos FROM turma AS t
-LEFT JOIN matricula AS m ON m.id_turma = t.id
-WHERE id_turno IN (SELECT tu.id FROM turno AS tu WHERE (tu.nome LIKE '%Matutino%')) GROUP BY t.nome HAVING COUNT(m.id) > 15;";
+     <?php
+     $sql = "SELECT t.id_turma, t.vl_nome, COUNT(m.id_matricula) AS qtdAlunos
+               FROM tb_turma AS t
+               LEFT JOIN tb_matricula AS m ON m.cd_turma = t.id_turma
+             WHERE t.cd_turno IN (
+                  SELECT tu.id_turno FROM tb_turno AS tu WHERE (tu.vl_nome LIKE '%Matutino%')
+             )
+                GROUP BY t.vl_nome, t.id_turma HAVING COUNT(m.id_matricula) > 15;";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute();
@@ -45,8 +50,8 @@ WHERE id_turno IN (SELECT tu.id FROM turno AS tu WHERE (tu.nome LIKE '%Matutino%
   # code...
  ?>
  <tr>
- 	 <th ><?=$linha['id']?></th>
-	 <th ><?=$linha['nome']?></th>
+ 	 <th ><?=$linha['id_turma']?></th>
+	 <th ><?=$linha['vl_nome']?></th>
  	 <th ><?=$linha['qtdAlunos']?></th>
  </tr>
 <?php }; ?>

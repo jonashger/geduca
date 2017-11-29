@@ -38,38 +38,40 @@
      </tr>
    </thead>
    <tbody>
-     <?php $sql = "SELECT p.id, p.nome, nam.nota, nam.id_materia, mp.nome AS nomeMat, t.nome AS turma FROM pessoa AS p
-                  INNER JOIN presenca AS pre ON pre.id_aluno = p.id
-                  INNER JOIN diario AS d ON d.id = pre.id_diario
-                  INNER JOIN tipo_ano_letivo AS tal ON (tal.id = d.id_ano_letivo_periodo)
-                  INNER JOIN ano_letivo AS al ON al.id = tal.id_ano_letivo
-                  INNER JOIN nota_aluno_materia AS nam ON ((nam.id_aluno = p.id) AND (nam.id_ano_letivo_periodo = tal.id))
-                  INNER JOIN materia AS m ON m.id = nam.id_materia
-                  INNER JOIN materia_padrao AS mp ON mp.id = m.id_materia_padrao
-                  INNER JOIN turma AS t ON t.id = m.id_turma
-                  WHERE ((pre.presente = 0) AND (al.ano = 2017))
-                  GROUP BY nam.id ORDER BY p.id ASC, nam.id_materia ASC;";
+     <?php
+     $sql = "SELECT p.id_pessoa, p.vl_nome, nam.fl_nota, nam.cd_materia, mp.vl_nome AS nomeMat, t.vl_nome AS turma
+                  	FROM tb_pessoa AS p
+                  	INNER JOIN tb_presenca AS pre ON pre.cd_aluno = p.id_pessoa
+                  	INNER JOIN tb_diario AS d ON d.id_diario = pre.cd_diario
+                  	INNER JOIN tb_tipo_ano_letivo AS tal ON (tal.id_tipoanoletivo = d.cd_ano_letivo_periodo)
+                  	INNER JOIN tb_ano_letivo AS al ON al.id_anoletivo = tal.cd_ano_letivo
+                  	INNER JOIN tb_nota_aluno_materia AS nam ON ((nam.cd_aluno = p.id_pessoa) AND (nam.cd_ano_letivo_periodo = tal.id_tipoanoletivo))
+                  	INNER JOIN tb_materia AS m ON m.id_materia = nam.cd_materia
+                  	INNER JOIN tb_materia_padrao AS mp ON mp.id_materiapadrao = m.cd_materia_padrao
+                  	INNER JOIN tb_turma AS t ON t.id_turma = m.cd_turma
+                WHERE ((pre.bl_presente = true) AND (al.cd_ano = 2017))
+                GROUP BY nam.id_notaalunomateria, p.id_pessoa, mp.vl_nome, t.vl_nome ORDER BY p.id_pessoa ASC, nam.cd_materia ASC;";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute();
 
      $line = $stmt1->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_FIRST);
      $contaNotas = 1;
-     $somaNota  = $line['nota'];
-     $idAluno   = $line['id'];
-     $nomeAluno = $line['nome'];
-     $idMateria = $line['id_materia'];
+     $somaNota  = $line['fl_nota'];
+     $idAluno   = $line['id_pessoa'];
+     $nomeAluno = $line['vl_nome'];
+     $idMateria = $line['cd_materia'];
      $nomeMat   = $line['nomeMat'];
      $turma     = $line['turma'];
      $n = 0;
      $arrayFinal = array();
      while ($line = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-       if (($line['id'] == $idAluno) AND ($line['id_materia'] == $idMateria)) {
+       if (($line['id_pessoa'] == $idAluno) AND ($line['cd_materia'] == $idMateria)) {
          $contaNotas++;
-         $somaNota  += $line['nota'];
-         $idAluno   = $line['id'];
-         $idMateria = $line['id_materia'];
-         $nomeAluno = $line['nome'];
+         $somaNota  += $line['fl_nota'];
+         $idAluno   = $line['id_pessoa'];
+         $idMateria = $line['cd_materia'];
+         $nomeAluno = $line['vl_nome'];
          $nomeMat   = $line['nomeMat'];
          $turma     = $line['turma'];
        }else {
@@ -90,11 +92,11 @@
          }
 
 
-         $idAluno = $line['id'];
+         $idAluno = $line['id_pessoa'];
          $contaNotas = 1; $somaNota = 0;
-         $somaNota  += $line['nota'];
-         $idMateria  = $line['id_materia'];
-         $nomeAluno  = $line['nome'];
+         $somaNota  += $line['fl_nota'];
+         $idMateria  = $line['cd_materia'];
+         $nomeAluno  = $line['vl_nome'];
          $nomeMat    = $line['nomeMat'];
          $turma      = $line['turma'];
        }
@@ -103,11 +105,11 @@
      usort($arrayFinal, 'cmp');
      foreach ($arrayFinal as $linha) { ?>
        <tr>
-         <th><?=$linha['id']?></th>
+         <th><?=$linha['id_pessoa']?></th>
          <th><?=$linha['turma']?></th>
-         <th><?=$linha['materia']?></th>
-         <th><?=$linha['nome']?></th>
-         <th><?=$linha['media']?></th>
+         <th><?=$linha['cd_materia']?></th>
+         <th><?=$linha['vl_nome']?></th>
+         <th><?=$linha['fl_media']?></th>
        </tr>
      <?php }
 

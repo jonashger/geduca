@@ -36,14 +36,17 @@
      </tr>
    </thead>
    <tbody>
-     <?php $sql = "SELECT p.id, p.nome, (YEAR(CURDATE()) - YEAR(p.data_nascimento)) AS idade FROM pessoa AS p
-INNER JOIN escola_usuario AS eu ON p.id = eu.id_usuario
-INNER JOIN tipo_funcao AS tf ON eu.id_tipo_funcao = tf.id
-INNER JOIN escola AS e ON e.id = eu.id_escola
-INNER JOIN turma AS t ON t.id_escola = e.id
-INNER JOIN ano_letivo AS al ON al.id = t.id_ano_letivo
-WHERE ((tf.nome = 'Professor(a) de Matemática') OR (tf.nome = 'Professor(a) de Geográfia')) AND (al.ano = 2017)
-AND ((e.nome = 'SMO') OR (e.nome = 'SJO')) GROUP BY p.id ORDER BY p.nome ASC;";
+     <?php
+      $sql = "SELECT p.id_pessoa, p.vl_nome, (select extract(YEAR from (select current_date))) - (select extract(YEAR from p.dt_nascimento)) AS idade
+              	FROM tb_pessoa AS p
+              	INNER JOIN tb_escola_usuario AS eu ON p.id_pessoa = eu.cd_usuario
+              	INNER JOIN tb_tipo_funcao AS tf ON tf.id_tipofuncao = eu.cd_tipo_funcao
+              	INNER JOIN tb_escola AS e ON e.id_escola = eu.cd_escola
+              	INNER JOIN tb_turma AS t ON t.cd_escola = e.id_escola
+              	INNER JOIN tb_ano_letivo AS al ON al.id_anoletivo = t.cd_ano_letivo
+              WHERE ((tf.vl_nome = 'Professor(a) de Matemática') OR (tf.vl_nome = 'Professor(a) de Geográfia')) AND (al.cd_ano = 2017)
+              AND ((e.vl_nome = 'SMO') OR (e.vl_nome = 'SJO')) GROUP BY p.id_pessoa ORDER BY p.vl_nome ASC;";
+
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute();
@@ -51,8 +54,8 @@ AND ((e.nome = 'SMO') OR (e.nome = 'SJO')) GROUP BY p.id ORDER BY p.nome ASC;";
   # code...
  ?>
  <tr>
- 	 <th ><?=$linha['id']?></th>
-	 <th ><?=$linha['nome']?></th>
+ 	 <th ><?=$linha['id_pessoa']?></th>
+	 <th ><?=$linha['vl_nome']?></th>
  	 <th ><?=$linha['idade']?></th>
  </tr>
 <?php }; ?>

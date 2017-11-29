@@ -35,8 +35,8 @@
      </tr>
    </thead>
    <tbody>
-     <?php $sql = "SELECT p.id, p.nome, p.cpf FROM pessoa AS p
-WHERE ((p.sexo = 'M') AND (p.data_nascimento < '2007-01-01') AND (p.email LIKE '%@gmail.com')) ORDER BY p.nome DESC";
+     <?php $sql = "SELECT p.id_pessoa, p.vl_nome, p.vl_cpf FROM tb_pessoa AS p
+                    WHERE ((p.ch_sexo = 'M') AND (p.dt_nascimento < '2007-01-01') AND (p.vl_email LIKE '%@gmail.com')) ORDER BY p.vl_nome DESC";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute(); ?>
@@ -44,10 +44,10 @@ WHERE ((p.sexo = 'M') AND (p.data_nascimento < '2007-01-01') AND (p.email LIKE '
   # code...
  ?>
  <tr>
- 	<th ><?=$linha['id']?></th>
-  <th ><?=$linha['nome']?></th>
+ 	<th ><?=$linha['id_pessoa']?></th>
+  <th ><?=$linha['vl_nome']?></th>
   <th ><?php
-$nbr_cpf= $linha['cpf'];
+$nbr_cpf= $linha['vl_cpf'];
 
 $parte_um     = substr($nbr_cpf, 0, 3);
 $parte_dois   = substr($nbr_cpf, 3, 3);
