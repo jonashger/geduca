@@ -32,7 +32,7 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
   }
   if (!$idPref == "") {
       $idNULL=NULL;
-      $sql = "INSERT INTO tb_escola(cd_empresa, cd_cep, vl_nome, vl_rua, vl_numero, vl_bairro, vl_logo) VALUES (?, ?, ?, ?, ?, ?, ?);";
+      $sql = "INSERT INTO tb_escola(cd_empresa, cd_cep, vl_nome, vl_rua, cd_numero, vl_bairro, vl_logo) VALUES (?, ?, ?, ?, ?, ?, ?);";
       $stmt = $pdo->prepare( $sql );
       $stmt->bindParam( 1, $idPref,PDO::PARAM_INT);
       $stmt->bindParam( 2, $idCEP,PDO::PARAM_INT);
@@ -52,8 +52,8 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
      try {
        $sqlEmail = "INSERT INTO tb_email_escola(cd_escola, vl_email) VALUES (?, ?);";
        $stmt = $pdo->prepare( $sqlEmail );
-       $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
-       $stmt->bindParam( 3, $email,PDO::PARAM_STR );
+       $stmt->bindParam( 1, $LAST_ID,PDO::PARAM_INT);
+       $stmt->bindParam( 2, $email,PDO::PARAM_STR );
        $stmt->execute();
      } catch (PDOException  $e) {
        $_SESSION['cadastroError'] = "Não foi possivel realizar o cadastro de Email".mysqli_error($conn);
@@ -62,9 +62,9 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
      try {
        $sqlEmail = "INSERT INTO tb_telefone_escola(cd_escola, ch_tipo, vl_numero) VALUES (?, ?, ?);";
        $stmt = $pdo->prepare( $sqlEmail );
-       $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
-       $stmt->bindParam( 3, $tipoTele,PDO::PARAM_STR );
-       $stmt->bindParam( 4, $telFixo,PDO::PARAM_STR );
+       $stmt->bindParam( 1, $LAST_ID,PDO::PARAM_INT);
+       $stmt->bindParam( 2, $tipoTele,PDO::PARAM_STR );
+       $stmt->bindParam( 3, $telFixo,PDO::PARAM_STR );
        $stmt->execute();
      } catch (PDOException  $e) {
        $_SESSION['cadastroError'] = "Não foi possivel realizar o cadastro de Telefone".mysqli_error($conn);
