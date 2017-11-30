@@ -21,27 +21,26 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
   }else{
   require '../conexao.php';
 
-    $sqlcnpj = "SELECT cod_pref FROM prefeitura WHERE cnpj = ?";
+    $sqlcnpj = "SELECT id_empresa FROM tb_prefeitura WHERE vl_cnpj = ?";
     $stmt1 = $pdo->prepare( $sqlcnpj );
     $stmt1->bindParam( 1, $cnpj,PDO::PARAM_STR);
     $stmt1->execute();
     $idPref = "";
     while ($linha = $stmt1->fetch(PDO::FETCH_ASSOC)) {
   // aqui eu mostro os valores de minha consulta
-    $idPref = $linha['cod_pref'];
+    $idPref = $linha['id_empresa'];
   }
   if (!$idPref == "") {
       $idNULL=NULL;
-      $sql = "INSERT INTO escola(id, cod_pref, id_cep, nome, rua, numero, bairro, logo) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+      $sql = "INSERT INTO tb_escola(cd_empresa, cd_cep, vl_nome, vl_rua, vl_numero, vl_bairro, vl_logo) VALUES (?, ?, ?, ?, ?, ?, ?);";
       $stmt = $pdo->prepare( $sql );
-      $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
-      $stmt->bindParam( 2, $idPref,PDO::PARAM_INT);
-      $stmt->bindParam( 3, $idCEP,PDO::PARAM_INT);
-      $stmt->bindParam( 4, $nome,PDO::PARAM_STR);
-      $stmt->bindParam( 5, $rua,PDO::PARAM_STR );
-      $stmt->bindParam( 6, $nrua,PDO::PARAM_INT);
-      $stmt->bindParam( 7, $bairro,PDO::PARAM_STR );
-      $stmt->bindParam( 8, $idNULL,PDO::PARAM_STR );
+      $stmt->bindParam( 1, $idPref,PDO::PARAM_INT);
+      $stmt->bindParam( 2, $idCEP,PDO::PARAM_INT);
+      $stmt->bindParam( 3, $nome,PDO::PARAM_STR);
+      $stmt->bindParam( 4, $rua,PDO::PARAM_STR );
+      $stmt->bindParam( 5, $nrua,PDO::PARAM_INT);
+      $stmt->bindParam( 6, $bairro,PDO::PARAM_STR );
+      $stmt->bindParam( 7, $idNULL,PDO::PARAM_STR );
       $stmt->execute();
       $LAST_ID = $pdo->lastInsertId();
 
@@ -51,9 +50,8 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
    }else {
 
      try {
-       $sqlEmail = "INSERT INTO email_escola(id, id_escola, email) VALUES (?, ?, ?);";
+       $sqlEmail = "INSERT INTO tb_email_escola(cd_escola, vl_email) VALUES (?, ?);";
        $stmt = $pdo->prepare( $sqlEmail );
-       $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
        $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
        $stmt->bindParam( 3, $email,PDO::PARAM_STR );
        $stmt->execute();
@@ -62,9 +60,8 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
        echo $var;
      }
      try {
-       $sqlEmail = "INSERT INTO telefone_escola(id, id_escola, tipo, numero) VALUES (?, ?, ?, ?);";
+       $sqlEmail = "INSERT INTO tb_telefone_escola(cd_escola, ch_tipo, vl_numero) VALUES (?, ?, ?);";
        $stmt = $pdo->prepare( $sqlEmail );
-       $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
        $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
        $stmt->bindParam( 3, $tipoTele,PDO::PARAM_STR );
        $stmt->bindParam( 4, $telFixo,PDO::PARAM_STR );

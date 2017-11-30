@@ -5,7 +5,7 @@
 
 	try{
 		$name = $_POST['nomeSerie'];
-		$sqlSe = "SELECT COUNT(id) FROM serie WHERE nome = ?;";
+		$sqlSe = "SELECT COUNT(id_serie) FROM tb_serie WHERE vl_nome = ?;";
 		$stmtCon = $pdo->prepare($sqlSe);
 		$stmtCon->bindParam(1, $name, PDO::PARAM_STR);
 		$stmtCon->execute();
@@ -13,7 +13,7 @@
 
 		if ($validaCon == 0){
 			try {
-				$sqlInsertSerie = "INSERT INTO serie(nome) VALUES (?);";
+				$sqlInsertSerie = "INSERT INTO tb_serie ( vl_nome ) VALUES (?);";
 				$stmt = $pdo->prepare($sqlInsertSerie);
 				$stmt->bindParam(1, $name, PDO::PARAM_STR);
 				$stmt->execute();

@@ -11,7 +11,7 @@
 </html>
 <?php $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
 
-$sqlemail = "UPDATE email_escola SET id_escola = ?, email = ? WHERE id = ?;";
+$sqlemail = "UPDATE tb_email_escola SET cd_escola = ?, vl_email = ? WHERE id_email = ?;";
 $stmt1 = $pdo->prepare( $sqlemail );
 $id2=NULL;
 $stmt1->bindParam( 1, $id2,PDO::PARAM_STR);

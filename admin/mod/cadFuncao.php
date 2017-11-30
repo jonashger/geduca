@@ -35,7 +35,7 @@
 
 <?php
 require("conexao.php");
-$sql = "SELECT id, nome FROM funcao";
+$sql = "SELECT id_funcao, vl_nome FROM tb_funcao";
 // executa a query
 $dados = mysqli_query( $conn , $sql);
 // transforma os dados em um array
@@ -63,8 +63,8 @@ $total = mysqli_num_rows($dados);
 		do {
 ?>
 <tr>
-	<th scope="col-3"><?=$linha['id']?></th>
-	<td class="col-7"><?=$linha['nome']?></td>
+	<th scope="col-3"><?=$linha['id_funcao']?></th>
+	<td class="col-7"><?=$linha['vl_nome']?></td>
 	<td class="col-1">
 		<a href="#"><button class="btn btn-info disabled" type="button" name="button" value="<?=$linha['id']?>">Modificar</button></a>
 	</td>

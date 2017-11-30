@@ -5,15 +5,15 @@ include '../conexao.php';
     if (validar_cpf($cpf)) {
       include '../conexao.php';
         $cpf = str_pad(preg_replace('[^0-9]', '', $cpf), 11, '0', STR_PAD_LEFT);
-      $sql = "SELECT id, cpf, id_tipo_pessoa FROM pessoa WHERE cpf =  ?;";
+      $sql = "SELECT id_pessoa, vl_cpf, cd_tipo_pessoa FROM tb_pessoa WHERE vl_cpf =  ?;";
       $stmt1 = $pdo->prepare( $sql );
       $stmt1->bindParam( 1, $cpf,PDO::PARAM_STR);
       $stmt1->execute();
       while($linha = $stmt1->fetch(PDO::FETCH_ASSOC)){
-        if ($linha['id_tipo_pessoa']==3) {
+        if ($linha['cd_tipo_pessoa']==3) {
           return 99;
         }else {
-          return $linha['id'];
+          return $linha['id_pessoa'];
         }
       }
         }
@@ -43,12 +43,12 @@ include '../conexao.php';
 function getEstado($idCidade)
 {
   include '../conexao.php';
-  $sql = "SELECT id_uf FROM cidade WHERE idCidade = ?;";
+  $sql = "SELECT cd_uf FROM tb_cidade WHERE id_cidade = ?;";
   $stmt1 = $pdo->prepare( $sql );
   $stmt1->bindParam( 1, $idCidade,PDO::PARAM_STR);
   $stmt1->execute();
   while($linha = $stmt1->fetch(PDO::FETCH_ASSOC)){
-    return $linha['id_uf'];
+    return $linha['cd_uf'];
   }
   return 1;
 }

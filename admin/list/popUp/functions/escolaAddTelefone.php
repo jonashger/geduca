@@ -17,9 +17,8 @@ $var = "<script>javascript:history.back(-1)</script>";
 $stmt1="";
 try {
   $idNULL = "";
-  $sqlEmail = "INSERT INTO telefone_escola(id, id_escola, tipo, numero) VALUES (?, ?, ?, ?);";
+  $sqlEmail = "INSERT INTO tb_telefone_escola(cd_escola, ch_tipo, vl_numero) VALUES (?, ?, ?);";
   $stmt = $pdo->prepare( $sqlEmail );
-  $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
   $stmt->bindParam( 2, $id,PDO::PARAM_INT);
   $stmt->bindParam( 3, $tipo,PDO::PARAM_STR );
   $stmt->bindParam( 4, $num,PDO::PARAM_STR );

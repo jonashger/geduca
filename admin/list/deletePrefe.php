@@ -3,17 +3,17 @@
  $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
 $stmt ='';
 try {
-   $sqltele = "DELETE FROM telefone_prefeitura WHERE cod_pref = ?;";
+   $sqltele = "DELETE FROM tb_telefone_prefeitura WHERE id_empresa = ?;";
    $stmt1 = $pdo->prepare( $sqltele );
    $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
    $stmt1->execute();
 
-   $sqlemail = "DELETE FROM email_prefeitura WHERE cod_pref = ?;";
+   $sqlemail = "DELETE FROM tb_email_prefeitura WHERE id_empresa = ?;";
    $stmt1 = $pdo->prepare( $sqlemail );
    $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
    $stmt1->execute();
 
-      $sql = "DELETE FROM prefeitura WHERE cod_pref = ?;";
+      $sql = "DELETE FROM tb_prefeitura WHERE id_empresa = ?;";
       $stmt = $pdo->prepare( $sql );
       $stmt->bindParam( 1, $id,PDO::PARAM_STR);
       $stmt->execute();

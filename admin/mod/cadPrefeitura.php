@@ -100,13 +100,13 @@
 				<select name="ufEstado" id="ufEstado" class="custom-select mb-2 mr-sm-2 mb-sm-0">
 				<option value="" ></option>
 				<?php
-				$sql = "SELECT id, nome_estado
-						FROM estado
-						ORDER BY nome_estado";
+				$sql = "SELECT id_estado, vl_nome_estado
+									FROM tb_estado
+								ORDER BY vl_nome_estado";
 						$stmt1 = $pdo->prepare( $sql );
 						$stmt1->execute();
 				while ( $row =  $stmt1->fetch(PDO::FETCH_ASSOC)) {
-					echo '<option name="nUF" value="'.$row['id'].'">'.$row['nome_estado'].'</option>';
+					echo '<option name="nUF" value="'.$row['id_estado'].'">'.$row['vl_nome_estado'].'</option>';
 				}
 				?>
 			</option></select>

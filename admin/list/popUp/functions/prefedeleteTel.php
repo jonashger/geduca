@@ -2,7 +2,7 @@
 
 <?php $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
 
-$sqlemail = "DELETE FROM telefone_prefeitura WHERE id = ?;";
+$sqlemail = "DELETE FROM tb_telefone_prefeitura WHERE id_telefone = ?;";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute();

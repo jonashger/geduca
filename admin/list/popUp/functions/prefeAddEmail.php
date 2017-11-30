@@ -18,9 +18,8 @@ $stmt1="";
 
 try {
   $idNULL = "";
-  $sqlEmail = "INSERT INTO email_prefeitura(id, email, setor, cod_pref) VALUES (?, ?, ?, ?);";
+  $sqlEmail = "INSERT INTO email_prefeitura(vl_email, ch_setor, id_empresa) VALUES (?, ?, ?);";
   $stmt = $pdo->prepare( $sqlEmail );
-  $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
   $stmt->bindParam( 2, $email,PDO::PARAM_STR );
   $stmt->bindParam( 3, $setor,PDO::PARAM_INT);
   $stmt->bindParam( 4, $id,PDO::PARAM_INT);

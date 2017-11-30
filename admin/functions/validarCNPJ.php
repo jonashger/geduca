@@ -2,12 +2,12 @@
 function validar_cnpj($cnpj)
 {
 	include '../conexao.php';
-	$sql = "SELECT cnpj FROM prefeitura WHERE cnpj = ?;";
+	$sql = "SELECT vl_cnpj FROM tb_prefeitura WHERE vl_cnpj = ?;";
 	$stmt1 = $pdo->prepare( $sql );
 	$stmt1->bindParam( 1, $cnpj,PDO::PARAM_INT);
 	$stmt1->execute();
 	while ($linha = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-		if ($linha['cnpj']==$cnpj) {
+		if ($linha['vl_cnpj']==$cnpj) {
 			return true;
 		};
 	}

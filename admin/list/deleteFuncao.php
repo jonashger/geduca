@@ -4,7 +4,7 @@
   $stmt ='';
   $stmtValida ='';
   try {
-    $sqlValida = "SELECT COUNT(id) FROM pessoa WHERE id_funcao = ?;";
+    $sqlValida = "SELECT COUNT(id_pessoa) FROM tb_pessoa WHERE cd_funcao = ?;";
     $stmtValida = $pdo->prepare($sqlValida);
     $stmtValida->bindParam(1, $id, PDO::PARAM_INT);
     $stmtValida->execute();
@@ -12,7 +12,7 @@
 
     if ($temVinculo == 0) {
       try{
-        $sqlDelete = "DELETE FROM funcao WHERE id = ?;";
+        $sqlDelete = "DELETE FROM tb_funcao WHERE id_funcao = ?;";
         $stmt = $pdo->prepare($sqlDelete);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();

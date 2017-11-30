@@ -17,9 +17,8 @@ $stmt1="";
 
 try {
   $idNULL = "";
-  $sqlEmail = "INSERT INTO email_escola(id, id_escola, email) VALUES (?, ?, ?);";
+  $sqlEmail = "INSERT INTO tb_email_escola(cd_escola, vl_email) VALUES (?, ?);";
   $stmt = $pdo->prepare( $sqlEmail );
-  $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
   $stmt->bindParam( 2, $id,PDO::PARAM_INT);
   $stmt->bindParam( 3, $email,PDO::PARAM_STR );
   $stmt->execute();

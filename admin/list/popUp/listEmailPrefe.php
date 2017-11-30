@@ -12,7 +12,7 @@
 
 <?php
 $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
-$sqlemail = "SELECT id, email, setor FROM email_prefeitura WHERE cod_pref = ?";
+$sqlemail = "SELECT id_email, vl_email, vl_setor FROM tb_email_prefeitura WHERE id_empresa = ?";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute();
@@ -77,8 +77,8 @@ $stmt1->execute();
 ?>
 <tr>
 	<th scope="col-1"><?=$cont?></th>
-	<td class="col-1"><?=$linha['setor']?></td>
-	<td class="col-4"><?=$linha['email']?></td>
+	<td class="col-1"><?=$linha['vl_setor']?></td>
+	<td class="col-4"><?=$linha['vl_email']?></td>
 	<td class="col-1">
 		<a href="functions/escolamodificaEmail.php?id=<?=$linha['id']?>" class="btn btn-info disabled" >Modificar</a>
 	</td>
@@ -94,7 +94,7 @@ $stmt1->execute();
 </tbody>
 </table>
 <?php
-$sqlemail = "SELECT id,tipo, numero FROM telefone_prefeitura WHERE cod_pref = ?";
+$sqlemail = "SELECT id_telefone, ch_tipo, vl_numero FROM tb_telefone_prefeitura WHERE id_empresa = ?";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute(); ?>
@@ -144,21 +144,21 @@ while($linha = $stmt1->fetch(PDO::FETCH_ASSOC)){
 <tr>
   <?php
   $vartipo="";
-  if($linha['tipo'] == "C"){
+  if($linha['ch_tipo'] == "C"){
     $vartipo="Celular";
-  }elseif($linha['tipo'] == "F"){
+  }elseif($linha['ch_tipo'] == "F"){
     $vartipo= "Fixo";
   }else {
     $vartipo="FAX";
   }  ?>
 <th scope="col-1"><?=$cont?></th>
 <td><?=$vartipo?></td>
-<td class="col-5"><?=$linha['numero']?></td>
+<td class="col-5"><?=$linha['vl_numero']?></td>
 <td class="col-1">
-<a href="functions/escolamodificaEmail.php?id=<?=$linha['id']?>" class="btn btn-info disabled">Modificar</a>
+<a href="functions/escolamodificaEmail.php?id=<?=$linha['id_telefone']?>" class="btn btn-info disabled">Modificar</a>
 </td>
 <td class="col-1">
-<a href="functions/prefedeleteTel.php?id=<?=$linha['id']?>"class="btn btn-danger">Eliminar</a>
+<a href="functions/prefedeleteTel.php?id=<?=$linha['id_telefone']?>"class="btn btn-danger">Eliminar</a>
 </td>
 </tr>
 <?php

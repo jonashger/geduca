@@ -36,39 +36,39 @@
       		<div role="tabpanel" class="tab-pane fade in active" id="perfil">
             <?php
               require('conexao.php');
-              $sql = "SELECT p.id_tipo_pessoa, p.id_funcao, p.email, p.nome, p.cpf, p.rg, p.numero_certidao, p.data_nascimento, p.sexo,
-                      p.id_cidade_natural, p.id_cidade_atual, p.id_pai, p.id_mae, c.id_uf AS id_uf_natural, c2.id_uf AS id_uf_atual
-                      FROM pessoa AS p
-                      INNER JOIN cidade AS c ON c.id = p.id_cidade_natural
-                      INNER JOIN cidade AS c2 ON c2.id = p.id_cidade_atual
-                      WHERE p.id = ?";
+              $sql = "SELECT p.cd_tipo_pessoa, p.cd_funcao, p.vl_email, p.vl_nome, p.vl_cpf, p.vl_rg, p.cd_numero_certidao, p.dt_nascimento, p.ch_sexo,
+                             p.cd_cidade_natural, p.cd_cidade_atual, p.cd_pai, p.cd_mae, c.cd_uf AS cd_uf_natural, c2.cd_uf AS cd_uf_atual
+                      FROM tb_pessoa AS p
+                      INNER JOIN tb_cidade AS c ON c.id_cidade = p.cd_cidade_natural
+                      INNER JOIN tb_cidade AS c2 ON c2.id_cidade = p.cd_cidade_atual
+                      WHERE p.id_pessoa = ?";
               $stmt = $pdo->prepare( $sql );
               $stmt->bindParam(1, $_SESSION['idUsuario'],PDO::PARAM_INT);
               $stmt->execute();
               $resultadoPessoa = $stmt->fetch(PDO::FETCH_ASSOC);
 
-              list($ano, $mes, $dia) = explode("-", $resultadoPessoa['data_nascimento']);
+              list($ano, $mes, $dia) = explode("-", $resultadoPessoa['dt_nascimento']);
 
               if (empty($resultadoPessoa)){
                     $_SESSION['perfilError'] = "Falha ao buscar as informações do usuário.".$sql.$resultadoPessoa['email'] ;
                 }elseif(isset($resultadoPessoa)){
-                  $sqlTelefone = 'SELECT * FROM telefone_pessoa WHERE id_pessoa = ?';
+                  $sqlTelefone = 'SELECT * FROM tb_telefone_pessoa WHERE cd_pessoa = ?';
                   $stmtTelefone = $pdo->prepare($sqlTelefone);
                   $stmtTelefone->bindParam(1, $_SESSION['idUsuario'], PDO::PARAM_INT);
                   $stmtTelefone->execute();
                   $resultadoTelefone = $stmtTelefone->fetch(PDO::FETCH_ASSOC);
                   $qtdTelefones = $stmtTelefone->rowCount();
 
-                  if (($resultadoPessoa['id_pai'] > 0) OR ($resultadoPessoa['id_mae'] > 0)) {
-                    $sqlPai = 'SELECT id, cpf FROM pessoa WHERE id = ?';
+                  if (($resultadoPessoa['cd_pai'] > 0) OR ($resultadoPessoa['cd_mae'] > 0)) {
+                    $sqlPai = 'SELECT id_pessoa, vl_cpf FROM tb_pessoa WHERE id_pessoa = ?';
                     $stmtPai = $pdo->prepare($sqlPai);
-                    $stmtPai->bindParam(1, $resultadoPessoa['id_pai'], PDO::PARAM_INT);
+                    $stmtPai->bindParam(1, $resultadoPessoa['cd_pai'], PDO::PARAM_INT);
                     $stmtPai->execute();
                     $resultadoPai = $stmtPai->fetch(PDO::FETCH_ASSOC);
 
-                    $sqlMae = 'SELECT id, cpf FROM pessoa WHERE id = ?';
+                    $sqlMae = 'SELECT id_pessoa, vl_cpf FROM tb_pessoa WHERE id_pessoa = ?';
                     $stmtMae = $pdo->prepare($sqlMae);
-                    $stmtMae->bindParam(1, $resultadoPessoa['id_mae'], PDO::PARAM_INT);
+                    $stmtMae->bindParam(1, $resultadoPessoa['cd_mae'], PDO::PARAM_INT);
                     $stmtMae->execute();
                     $resultadoMae = $stmtMae->fetch(PDO::FETCH_ASSOC);
                   }
@@ -86,7 +86,7 @@
             ?>
                 </p>
             <?php }		?>
-            <form action="functions/aaa" method="post" name="editPerfil" style="margin-top: 25px;">
+            <form action="functions/precisaserimplementado" method="post" name="editPerfil" style="margin-top: 25px;">
               <?php if(isset($_SESSION['perfilError'])){ ?>
           			<p class="text-center alert alert-danger" >
           			<?php
@@ -101,17 +101,17 @@
           			<?php
             			echo($_SESSION['perfilSucesso']);
             			unset($_SESSION['perfilSucesso']);
-          			?>
+          			} ?>
           		  <div class="form-group row">
           			  <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Nome Completo</label>
           			  <div class="col-lg-8 col-sm-12">
-          				<input class="form-control" name="nome" type="text" placeholder="Fulano Ciclano" value="<?=$resultadoPessoa['nome'] ?>" require autofocus>
+          				<input class="form-control" name="nome" type="text" placeholder="Fulano Ciclano" value="<?=$resultadoPessoa['vl_nome'] ?>" require autofocus>
           			  </div>
           			</div>
           			<div class="form-group row">
           				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Email</label>
           				<div class="col-lg-8 col-sm-12">
-          				<input class="form-control" name="email" type="email" placeholder="aluno@dominio.com" value="<?=$resultadoPessoa['email'] ?>" required autofocus>
+          				<input class="form-control" name="email" type="email" placeholder="aluno@dominio.com" value="<?=$resultadoPessoa['vl_email'] ?>" required autofocus>
           				</div>
           			</div>
           			<div class="form-group row">
@@ -119,17 +119,17 @@
           				<div class="col-lg-8 col-sm-12">
           					<div class="form-check form-group form-check-inline">
           						<label class="form-check-label">
-          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio1"  value="M" <?php if($resultadoPessoa['sexo'] == 'M') {?> checked <?php } ?> > Masculino
+          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio1"  value="M" <?php if($resultadoPessoa['ch_sexo'] == 'M') {?> checked <?php } ?> > Masculino
           						</label>
           					</div>
           					<div class="form-check form-check-inline">
           						<label class="form-check-label">
-          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio2" value="F" <?php if($resultadoPessoa['sexo'] == 'F') {?> checked <?php } ?> > Feminino
+          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio2" value="F" <?php if($resultadoPessoa['ch_sexo'] == 'F') {?> checked <?php } ?> > Feminino
           						</label>
           					</div>
           					<div class="form-check form-check-inline">
           						<label class="form-check-label">
-          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio3" value="I" <?php if($resultadoPessoa['sexo'] == 'I') {?> checked <?php } ?> > Indefinido
+          							<input class="form-check-input" type="radio" name="sexo" id="inlineRadio3" value="I" <?php if($resultadoPessoa['ch_sexo'] == 'I') {?> checked <?php } ?> > Indefinido
           						</label>
           					</div>
           				</div>
@@ -177,35 +177,35 @@
 
                 if ((isset($resultadoTelefone)) AND ($qtdTelefones > 2)) {
                   do {
-                    if ($resultadoTelefone['tipo'] == 'F') {
+                    if ($resultadoTelefone['ch_tipo'] == 'F') {
                 ?>
                     <div class="form-group row">
               				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Telefone Fixo</label>
               				<div class="col-lg-8 col-sm-12">
               				<input class="form-control"type="text" name="fixo<?=$i ?>" id="fixo<?=$i ?>"
-              		maxlength="13" placeholder="(99)1245-6789" value="<?=$resultadoTelefone['numero'] ?>" required autofocus>
+              		maxlength="13" placeholder="(99)1245-6789" value="<?=$resultadoTelefone['vl_numero'] ?>" required autofocus>
               				</div>
               			</div>
                 <?php
-                    } elseif ($resultadoTelefone['tipo'] == 'C') {
+              } elseif ($resultadoTelefone['ch_tipo'] == 'C') {
                 ?>
               			<!--   TELEFONE Celular " -->
               			<div class="form-group row">
               				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Telefone Celular</label>
               				<div class="col-lg-8 col-sm-12">
               				<input class="form-control"type="text" name="celular<?=$i ?>" id="celular<?=$i ?>"
-              		maxlength="14" placeholder="(99)12345-6789" value="<?=$resultadoTelefone['numero'] ?>" required autofocus>
+              		maxlength="14" placeholder="(99)12345-6789" value="<?=$resultadoTelefone['vl_numero'] ?>" required autofocus>
               				</div>
               			</div>
                 <?php
-                    } elseif ($resultadoTelefone['tipo'] == 'A') {
+              } elseif ($resultadoTelefone['ch_tipo'] == 'A') {
                 ?>
                       <!--   FAX " -->
                       <div class="form-group row">
                         <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">FAX</label>
                         <div class="col-lg-8 col-sm-12">
                         <input class="form-control"type="text" name="fax<?=$i ?>" id="fax<?=$i ?>"
-                    maxlength="14" placeholder="(99)12345-6789" value="<?=$resultadoTelefone['numero'] ?>" required autofocus>
+                    maxlength="14" placeholder="(99)12345-6789" value="<?=$resultadoTelefone['vl_numero'] ?>" required autofocus>
                         </div>
                       </div>
                 <?php
@@ -214,12 +214,12 @@
                 }else {
                   $fixo = NULL; $celular = NULL; $fax = NULL;
                   do {
-                    if ($resultadoTelefone['tipo'] == 'F') {
-                      $fixo = $resultadoTelefone['numero'];
-                    }elseif ($resultadoTelefone['tipo'] == 'C') {
-                      $celular = $resultadoTelefone['numero'];
+                    if ($resultadoTelefone['ch_tipo'] == 'F') {
+                      $fixo = $resultadoTelefone['vl_numero'];
+                    }elseif ($resultadoTelefone['ch_tipo'] == 'C') {
+                      $celular = $resultadoTelefone['vl_numero'];
                     } else {
-                      $fax = $resultadoTelefone['numero'];
+                      $fax = $resultadoTelefone['vl_numero'];
                     }
                   } while($resultadoTelefone = $stmtTelefone->fetch(PDO::FETCH_ASSOC));
                 ?>
@@ -259,13 +259,13 @@
             			<div class="form-group row">
             				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">RG</label>
             				<div class="col-lg-8 col-sm-12">
-            				<input class="form-control" name="rg" type="text" placeholder="1.123.123" value="<?=$resultadoPessoa['rg']?>" autofocus>
+            				<input class="form-control" name="rg" type="text" placeholder="1.123.123" value="<?=$resultadoPessoa['vl_rg']?>" autofocus>
             				</div>
             			</div>
             			<div class="form-group row">
             				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Número da Certidão</label>
             				<div class="col-lg-8 col-sm-12">
-            				<input class="form-control" name="nCertidao" type="text" placeholder="45151556" value="<?=$resultadoPessoa['numero_certidao'] ?>" autofocus>
+            				<input class="form-control" name="nCertidao" type="text" placeholder="45151556" value="<?=$resultadoPessoa['cd_numero_certidao'] ?>" autofocus>
             				</div>
             			</div>
                 <?php
@@ -277,13 +277,13 @@
 									  <select name="idnaturalUF" id="idnaturalUF" class="custom-select mb-2 mr-sm-2 mb-sm-0">
 											<option value="" ></option>
 											<?php
-									      $sql = "SELECT id, nome_estado
-														FROM estado
-														ORDER BY nome_estado";
+									      $sql = "SELECT id_estado, vl_nome_estado
+														FROM tb_estado
+														ORDER BY vl_nome_estado";
 														$stmt1 = $pdo->prepare( $sql );
 										        $stmt1->execute();
 												while ( $row =  $stmt1->fetch(PDO::FETCH_ASSOC)) {
-													echo '<option name="nUF" value="'.$row['id'].'">'.$row['nome_estado'].'</option>';
+													echo '<option name="nUF" value="'.$row['id_estado'].'">'.$row['vl_nome_estado'].'</option>';
 												}
 
 								      ?>
@@ -308,14 +308,14 @@
             					<select name="idAtualUF" id="ufEstado" class="custom-select mb-2 mr-sm-2 mb-sm-0">
             							<option value="" ></option>
             							<?php
-            									$sql = "SELECT id, nome_estado
-            									FROM estado
-            									ORDER BY nome_estado";
+            									$sql = "SELECT id_estado, vl_nome_estado
+            									FROM tb_estado
+            									ORDER BY vl_nome_estado";
 
             									$stmt1 = $pdo->prepare( $sql );
             					        $stmt1->execute();
             									while ( $row =  $stmt1->fetch(PDO::FETCH_ASSOC)) {
-            										echo '<option name="nUF" value="'.$row['id'].'">'.$row['nome_estado'].'</option>';
+            										echo '<option name="nUF" value="'.$row['id_estado'].'">'.$row['vl_nome_estado'].'</option>';
             									}
             							?>
             							</option>
@@ -349,8 +349,7 @@
           				  </div>
           			  </div>
           		  </div>
-                <?php
-              } ?>
+                <?php } ?>
           	<button class="btn btn-outline-success col-4 "name="BTEnvia" type="submit">Salvar</button>
           	</form>
           </div>
@@ -385,13 +384,13 @@
   $(document).ready(function() {
     <?php if ($_SESSION['nivel'] == 2) { ?>
       $("#tipoPessoa option").each(function(){
-        if($(this).attr('value') == <?=$resultadoPessoa['id_tipo_pessoa']?>) {
+        if($(this).attr('value') == <?=$resultadoPessoa['cd_tipo_pessoa']?>) {
           $(this).attr('selected', true);
-          <?php if ($resultadoPessoa['id_tipo_pessoa'] == 2) { ?>
+          <?php if ($resultadoPessoa['cd_tipo_pessoa'] == 2) { ?>
             $("#tipoPessoa").change();
             $("#tipoPessoa").ready(function(){
               $("#pessoaFuncao option").each(function(){
-                if($(this).attr('value') == <?=$resultadoPessoa['id_funcao']?>){
+                if($(this).attr('value') == <?=$resultadoPessoa['cd_funcao']?>){
                   $(this).attr('selected', true);
                 }
               });
@@ -407,14 +406,14 @@
     // valor da base que está sendo procurado
     $('#idnaturalUF option').each(function() {
       // se localizar a frase, define o atributo selected
-      if($(this).attr('value') == <?=$resultadoPessoa['id_uf_natural']?>) {
+      if($(this).attr('value') == <?=$resultadoPessoa['cd_uf_natural']?>) {
         $(this).attr('selected', true);
         //força o change para que liste as cidades
         $.when($("#idnaturalUF").change()).then(function(x){
           //assim que concluir, seta a cidade
           $("#idnaturalidade").ready(function(){
             $("#idnaturalidade option").each(function(){
-              if($(this).attr('value') == <?=$resultadoPessoa['id_cidade_natural']?>){
+              if($(this).attr('value') == <?=$resultadoPessoa['cd_cidade_natural']?>){
                 $(this).attr('selected', true);
                 return false;//vai sair do loop assim que encontrar o valor
               }
@@ -427,13 +426,13 @@
 
     $('#ufEstado option').each(function() {
       // se localizar a frase, define o atributo selected
-      if($(this).attr('value') == <?=$resultadoPessoa['id_uf_atual']?>) {
+      if($(this).attr('value') == <?=$resultadoPessoa['cd_uf_atual']?>) {
         $(this).attr('selected', true);
         //força o change para que liste as cidades, e após o change executa o que tiver no done
         $.when($("#ufEstado").change()).then(function(xx){
           $("#idcidade").ready(function(){
             $("#idcidade option").each(function(){
-              if($(this).attr('value') == <?=$resultadoPessoa['id_cidade_atual']?>){
+              if($(this).attr('value') == <?=$resultadoPessoa['cd_cidade_atual']?>){
                 $(this).attr('selected', true);//assim que concluir, seta a cidade
                 return false;//vai sair do loop assim que encontrar o valor
               }

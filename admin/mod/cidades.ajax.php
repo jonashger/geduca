@@ -5,10 +5,10 @@
 	$cod_estados =$_GET['idnaturalUF'];
 	$cidades = array();
 	require '../conexao.php';
-	$sql = "SELECT id, nome
-			FROM cidade
-			WHERE id_uf= ?
-			ORDER BY nome";
+	$sql = "SELECT id_cidade, vl_nome
+						FROM tb_cidade
+					WHERE cd_uf= ?
+					ORDER BY vl_nome";
 
 			$stmt = $pdo->prepare( $sql );
 	 		$stmt->bindParam( 1, $cod_estados ,PDO::PARAM_INT);
@@ -16,8 +16,8 @@
 
 	while ( $linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$cidade[] = array(
-			'idCidade'	=> $linha['id'],
-			'nom_Cidade'			=> $linha['nome'],
+			'idCidade'	=> $linha['id_cidade'],
+			'nom_Cidade'			=> $linha['vl_nome'],
 		);
 	}
 

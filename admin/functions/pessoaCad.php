@@ -65,9 +65,9 @@ if (isset($_POST)) {
         }else {
           $stmt = "";
           try {
-             $sql = "INSERT INTO pessoa( nivel_permissao, id_tipo_pessoa, id_funcao, id_turma_atual, email, password, nome,
-                numero_certidao, cpf, rg, data_nascimento, id_cidade_natural, id_cidade_atual, sexo, id_pai, id_mae,
-                 tipo_responsavel, concluiu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+             $sql = "INSERT INTO tb_pessoa( cd_nivel_permissao, cd_tipo_pessoa, cd_funcao, cd_turma_atual, vl_email, vl_password, vl_nome,
+                cd_numero_certidao, vl_cpf, vl_rg, dt_nascimento, cd_cidade_natural, cd_cidade_atual, ch_sexo, cd_pai, cd_mae,
+                 cd_tipo_responsavel, ch_concluiu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
              $stmt = $pdo->prepare( $sql );
              $stmt->bindParam( 1, $nivel,PDO::PARAM_INT);
              $stmt->bindParam( 2, $tipoPessoa,PDO::PARAM_INT );
@@ -93,22 +93,20 @@ if (isset($_POST)) {
 
             if ($telFixo != "") {
                 $tipo = "F";
-              $sqlTelFixo = "INSERT INTO telefone_pessoa(id, id_pessoa, tipo, numero) VALUES (?, ?, ?, ?);";
+              $sqlTelFixo = "INSERT INTO tb_telefone_pessoa(cd_pessoa, ch_tipo, vl_numero) VALUES (?, ?, ?);";
                       $stmt = $pdo->prepare( $sqlTelFixo );
-                      $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
-                      $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
-                      $stmt->bindParam( 3, $tipo,PDO::PARAM_STR );
-                      $stmt->bindParam( 4, $telFixo,PDO::PARAM_STR );
+                      $stmt->bindParam( 1, $LAST_ID,PDO::PARAM_INT);
+                      $stmt->bindParam( 2, $tipo,PDO::PARAM_STR );
+                      $stmt->bindParam( 3, $telFixo,PDO::PARAM_STR );
                      $stmt->execute();
             }
             if ($telCelu != "") {
                 $tipo = "C";
-                $sqlTelFixo = "INSERT INTO telefone_pessoa(id, id_pessoa, tipo, numero) VALUES (?, ?, ?, ?);";
+                $sqlTelFixo = "INSERT INTO tb_telefone_pessoa(cd_pessoa, ch_tipo, vl_numero) VALUES (?, ?, ?);";
                         $stmt = $pdo->prepare( $sqlTelFixo );
-                        $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
-                        $stmt->bindParam( 2, $LAST_ID,PDO::PARAM_INT);
-                        $stmt->bindParam( 3, $tipo,PDO::PARAM_STR );
-                        $stmt->bindParam( 4, $telCelu,PDO::PARAM_STR );
+                        $stmt->bindParam( 1, $LAST_ID,PDO::PARAM_INT);
+                        $stmt->bindParam( 2, $tipo,PDO::PARAM_STR );
+                        $stmt->bindParam( 3, $telCelu,PDO::PARAM_STR );
                        $stmt->execute();
             }
 

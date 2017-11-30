@@ -5,7 +5,7 @@
 
   try{
     $name = $_POST['nome'];
-    $sqlFunc = "SELECT COUNT(id) FROM funcao WHERE nome = ?;";
+    $sqlFunc = "SELECT COUNT(id_funcao) FROM tb_funcao WHERE vl_nome = ?;";
     $stmtCon = $pdo->prepare($sqlFunc);
     $stmtCon->bindParam(1, $name, PDO::PARAM_STR);
     $stmtCon->execute();
@@ -13,7 +13,7 @@
 
     if ($validaCon == 0){
       try {
-        $sqlInsertFuncao = "INSERT INTO funcao(nome) VALUES (?);";
+        $sqlInsertFuncao = "INSERT INTO tb_funcao ( vl_nome ) VALUES (?);";
         $stmt = $pdo->prepare($sqlInsertFuncao);
         $stmt->bindParam(1, $name, PDO::PARAM_STR);
         $stmt->execute();

@@ -2,7 +2,7 @@
 <div class="text-center container text-center " style="float: center">
 <?php
 require("conexao.php");
-$sql = "SELECT id, cod_pref, nome, rua, numero, bairro FROM escola;";
+$sql = "SELECT id_escola, cd_empresa, vl_nome, vl_rua, cd_numero, vl_bairro FROM tb_escola;";
 // executa a query
 $dados = mysqli_query( $conn , $sql);
 if (!$dados) {
@@ -63,19 +63,19 @@ $total = mysqli_num_rows($dados);
 		do {
 ?>
 <tr>
-	<th scope="col-1"><?=$linha['id']?></th>
-	<td class="col-3"><?=$linha['nome']?></td>
-	<td class="col-3"><?=$linha['rua'].",".$linha['numero']?></td>
-	<td class="col-2"><?=$linha['bairro']?></td>
+	<th scope="col-1"><?=$linha['id_escola']?></th>
+	<td class="col-3"><?=$linha['vl_nome']?></td>
+	<td class="col-3"><?=$linha['vl_rua'].",".$linha['cd_numero']?></td>
+	<td class="col-2"><?=$linha['vl_bairro']?></td>
   <td class="col-1">
     <?php $dominio= $_SERVER['HTTP_HOST']; ?>
-  <a href="#" onclick="window.open('list/popUp/listEmailEscola.php?id=<?=$linha['id']?>', 'Ver Email da Escola', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1070, HEIGHT=700');"><button class="btn btn-info" type="button" name="button">Ver Emails<br>Telefones</button></a>
+  <a href="#" onclick="window.open('list/popUp/listEmailEscola.php?id=<?=$linha['id_escola']?>', 'Ver Email da Escola', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1070, HEIGHT=700');"><button class="btn btn-info" type="button" name="button">Ver Emails<br>Telefones</button></a>
   </td>
 	<td class="col-1">
 		<a href="administrativo.php?mod=ediEscola"class="btn btn-info disabled">Modificar</a>
 	</td>
 	<td class="col-1">
-		<a href="list/deleteEscola.php?id=<?=$linha['id']?>"class="btn btn-danger">Eliminar</a>
+		<a href="list/deleteEscola.php?id=<?=$linha['id_escola']?>"class="btn btn-danger">Eliminar</a>
 	</td>
 </tr>
 <?php

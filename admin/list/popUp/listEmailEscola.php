@@ -11,7 +11,7 @@
 
 <?php include '../../conexao.php';
 $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
-$sqlemail = "SELECT id, email FROM email_escola WHERE id_escola = ?";
+$sqlemail = "SELECT id_email, vl_email FROM tb_email_escola WHERE cd_escola = ?";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute();
@@ -74,12 +74,12 @@ $stmt1->execute();
 ?>
 <tr>
 	<th scope="col-1"><?=$cont?></th>
-	<td class="col-5"><?=$linha['email']?></td>
+	<td class="col-5"><?=$linha['vl_email']?></td>
 	<td class="col-1">
-		<a href="functions/escolamodificaEmail.php?id=<?=$linha['id']?>" class="btn btn-info disabled" >Modificar</a>
+		<a href="functions/escolamodificaEmail.php?id=<?=$linha['id_email']?>" class="btn btn-info disabled" >Modificar</a>
 	</td>
 	<td class="col-1">
-		<a href="functions/escoladeleteemail.php?id=<?=$linha['id']?>"class="btn btn-danger">Eliminar</a>
+		<a href="functions/escoladeleteemail.php?id=<?=$linha['id_email']?>"class="btn btn-danger">Eliminar</a>
 	</td>
 </tr>
 <?php
@@ -90,7 +90,7 @@ $stmt1->execute();
 </tbody>
 </table>
 <?php
-$sqlemail = "SELECT id,tipo, numero FROM telefone_escola WHERE id_escola = ?";
+$sqlemail = "SELECT id_telefone, ch_tipo, vl_numero FROM tB_telefone_escola WHERE cd_escola = ?";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute(); ?>
@@ -140,21 +140,21 @@ while($linha = $stmt1->fetch(PDO::FETCH_ASSOC)){
 <tr>
   <?php
   $vartipo="";
-  if($linha['tipo'] == "C"){
+  if($linha['ch_tipo'] == "C"){
     $vartipo="Celular";
-  }elseif($linha['tipo'] == "F"){
+  }elseif($linha['ch_tipo'] == "F"){
     $vartipo= "Fixo";
   }else {
     $vartipo="FAX";
   }  ?>
 <th scope="col-1"><?=$cont?></th>
 <td class="col-1"><?=$vartipo?></td>
-<td class="col-5"><?=$linha['numero']?></td>
+<td class="col-5"><?=$linha['vl_numero']?></td>
 <td class="col-1">
-<a href="functions/escolamodificaEmail.php?id=<?=$linha['id']?>" class="btn btn-info disabled">Modificar</a>
+<a href="functions/escolamodificaEmail.php?id=<?=$linha['id_numero']?>" class="btn btn-info disabled">Modificar</a>
 </td>
 <td class="col-1">
-<a href="functions/escoladeleteTel.php?id=<?=$linha['id']?>"class="btn btn-danger">Eliminar</a>
+<a href="functions/escoladeleteTel.php?id=<?=$linha['id_numero']?>"class="btn btn-danger">Eliminar</a>
 </td>
 </tr>
 <?php

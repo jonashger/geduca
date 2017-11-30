@@ -11,7 +11,7 @@
 </html>
 <?php $id = isset( $_GET[ 'id' ] ) ? $_GET[ 'id' ] : null ;
 
-$sqlemail = "DELETE FROM email_escola WHERE id = ?;";
+$sqlemail = "DELETE FROM tb_email_escola WHERE id_email = ?;";
 $stmt1 = $pdo->prepare( $sqlemail );
 $stmt1->bindParam( 1, $id,PDO::PARAM_STR);
 $stmt1->execute();

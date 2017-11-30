@@ -7,9 +7,8 @@ $var = "<script>javascript:history.back(-1)</script>";
 $stmt1="";
 try {
   $idNULL = "";
-  $sqlEmail = "INSERT INTO telefone_prefeitura(id, tipo, numero, cod_pref) VALUES (?, ?, ?, ?);";
+  $sqlEmail = "INSERT INTO tb_telefone_prefeitura(ch_tipo, vl_numero, id_empresa) VALUES (?, ?, ?);";
   $stmt = $pdo->prepare( $sqlEmail );
-  $stmt->bindParam( 1, $idNULL,PDO::PARAM_INT);
   $stmt->bindParam( 2, $tipo,PDO::PARAM_STR );
   $stmt->bindParam( 3, $num,PDO::PARAM_STR );
   $stmt->bindParam( 4, $id,PDO::PARAM_INT);
