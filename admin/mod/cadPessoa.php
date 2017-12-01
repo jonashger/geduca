@@ -51,6 +51,28 @@
 				<input class="form-control"type="password" name="senha" placeholder="********" required autofocus>
 				</div>
 			</div>
+
+
+			<div class="form-group row">
+								<label for="idEscola" class="col-lg-4 col-sm-12 col-form-label">Escola*</label>
+								<div class="col-lg-8 col-sm-12">
+							<select name="escola" id="escola" class="custom-select mb-2 mr-sm-2 mb-sm-0">
+							<option value="" >Selecione</option>
+							<?php
+									$sql = "SELECT id_escola, vl_nome
+													FROM tb_escola
+													ORDER BY vl_nome";
+									$stmt1 = $pdo->prepare( $sql );
+									$stmt1->execute();
+							while ( $row =  $stmt1->fetch(PDO::FETCH_ASSOC)) {
+								echo '<option name="nEscola" value="'.$row['id_escola'].'">'.$row['vl_nome'].'</option>';
+							}
+			?>
+						</option>
+
+				</select>
+				</div>
+	</div>
 			<div class="form-group row">
 				<label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Sexo*</label>
 				<div class="col-lg-8 col-sm-12">
