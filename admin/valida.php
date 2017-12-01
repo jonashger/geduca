@@ -13,7 +13,7 @@ if	((isset($_POST['email']))  && (isset($_POST['password']))){
 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	if (empty($resultado)){
-				$_SESSION['loginErro'] = "Usuário e/ou Senha Inválida".$sql.$resultado['vl_email'] ;
+				$_SESSION['loginErro'] = "Usuário e/ou Senha Inválida".$sql.$resultado['vl_email'].$senha ;
 			header("Location: index.php	");
 		}elseif(isset($resultado)){
 		    $_SESSION['login'] = $usuario;

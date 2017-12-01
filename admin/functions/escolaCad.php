@@ -12,7 +12,7 @@ if (isset($_POST)) {
   $tipoLocal = $_POST['tipoLocal'];
   $tipoTele = $_POST['tipoTele'];
   $cep =  preg_replace( '#[^0-9]#', '',  $_POST['cep'] );
-  $idCEP = 1; ////////    ALTERAR
+
 $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$cep;
   if (validar_cnpj($cnpj)) {
     if (($nome == "") ||($email == "") ||($telFixo == "")) {
@@ -35,7 +35,7 @@ $string = $cnpj.$nome.$email.$telFixo.$rua.$telFixo.$nrua.$bairro.$tipoLocal.$ce
       $sql = "INSERT INTO tb_escola(cd_empresa, cd_cep, vl_nome, vl_rua, cd_numero, vl_bairro, vl_logo) VALUES (?, ?, ?, ?, ?, ?, ?);";
       $stmt = $pdo->prepare( $sql );
       $stmt->bindParam( 1, $idPref,PDO::PARAM_INT);
-      $stmt->bindParam( 2, $idCEP,PDO::PARAM_INT);
+      $stmt->bindParam( 2, $cep,PDO::PARAM_INT);
       $stmt->bindParam( 3, $nome,PDO::PARAM_STR);
       $stmt->bindParam( 4, $rua,PDO::PARAM_STR );
       $stmt->bindParam( 5, $nrua,PDO::PARAM_INT);

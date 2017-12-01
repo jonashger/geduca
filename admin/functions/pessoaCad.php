@@ -23,6 +23,8 @@ if (isset($_POST)) {
   $idnaturalUF = $_POST['idnaturalUF'];
   $cidadeAtual =  $_POST['idcidade'];
   $idAtualUF =$_POST['idAtualUF'];
+  $escola =$_POST['escola'];
+  echo $escola;
   $sexo= $_POST['sexo'];
   $cpfPai =  preg_replace( '#[^0-9]#', '',  $_POST['cpfPai'] );
   $cpfMae =  preg_replace( '#[^0-9]#', '',  $_POST['cpfMae'] );
@@ -45,9 +47,7 @@ if (isset($_POST)) {
     }
   }elseif ($tipoPessoa == 3) {//se for aluno
     $nivel = 5;
-    if (!((($idpai = validaPaiMae($cpfPai))== 99) || (($idMae=validaPaiMae($cpfMae))== 99))){
-      $bollean = TRUE;
-    }
+
   }else {
     $bollean= FALSE;
     $nivel = 4; //para pai, mae ou outro responsável
@@ -67,7 +67,7 @@ if (isset($_POST)) {
           try {
              $sql = "INSERT INTO tb_pessoa( cd_nivel_permissao, cd_tipo_pessoa, cd_funcao, cd_turma_atual, vl_email, vl_password, vl_nome,
                 cd_numero_certidao, vl_cpf, vl_rg, dt_nascimento, cd_cidade_natural, cd_cidade_atual, ch_sexo, cd_pai, cd_mae,
-                 cd_tipo_responsavel, ch_concluiu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                 cd_tipo_responsavel, ch_concluiu, cd_escolaaux,dt_cadastro,dt_alteracao) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
              $stmt = $pdo->prepare( $sql );
              $stmt->bindParam( 1, $nivel,PDO::PARAM_INT);
              $stmt->bindParam( 2, $tipoPessoa,PDO::PARAM_INT );
@@ -87,9 +87,13 @@ if (isset($_POST)) {
              $stmt->bindParam( 16, $idMae,PDO::PARAM_STR );
              $stmt->bindParam( 17, $idNULL,PDO::PARAM_STR );
              $stmt->bindParam( 18, $idNULL,PDO::PARAM_STR);
+             $stmt->bindParam( 19, $escola,PDO::PARAM_STR);
+             $stmt->bindParam( 20, $dataNasc,PDO::PARAM_STR);
+             $stmt->bindParam( 21, $dataNasc,PDO::PARAM_STR);
+
              $stmt->execute();
              $LAST_ID = $pdo->lastInsertId();
-
+/*
 
             if ($telFixo != "") {
                 $tipo = "F";
@@ -108,7 +112,7 @@ if (isset($_POST)) {
                         $stmt->bindParam( 2, $tipo,PDO::PARAM_STR );
                         $stmt->bindParam( 3, $telCelu,PDO::PARAM_STR );
                        $stmt->execute();
-            }
+            }*/
 
             } catch (PDOException $e) {
             $_SESSION['cadastroError'] = "Não foi possivel realizar o cadastro devido a esse problema: $e. <br> Por favor, Entre em contata com o administrador do sistema caso o erro persista.";
