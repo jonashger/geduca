@@ -36,13 +36,7 @@
    </thead>
    <tbody>
      <?php
-     $sql = "SELECT t.id_turma, t.vl_nome, COUNT(m.id_matricula) AS qtdAlunos
-               FROM tb_turma AS t
-               LEFT JOIN tb_matricula AS m ON m.cd_turma = t.id_turma
-             WHERE t.cd_turno IN (
-                  SELECT tu.id_turno FROM tb_turno AS tu WHERE (tu.vl_nome LIKE '%Matutino%')
-             )
-                GROUP BY t.vl_nome, t.id_turma HAVING COUNT(m.id_matricula) > 15;";
+     $sql = "select id_turma, vl_nome, qtdAlunos from vw_r2;";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute();

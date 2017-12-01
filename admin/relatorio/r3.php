@@ -39,18 +39,7 @@
    </thead>
    <tbody>
      <?php
-     $sql = "SELECT p.id_pessoa, p.vl_nome, nam.fl_nota, nam.cd_materia, mp.vl_nome AS nomeMat, t.vl_nome AS turma
-                  	FROM tb_pessoa AS p
-                  	INNER JOIN tb_presenca AS pre ON pre.cd_aluno = p.id_pessoa
-                  	INNER JOIN tb_diario AS d ON d.id_diario = pre.cd_diario
-                  	INNER JOIN tb_tipo_ano_letivo AS tal ON (tal.id_tipoanoletivo = d.cd_ano_letivo_periodo)
-                  	INNER JOIN tb_ano_letivo AS al ON al.id_anoletivo = tal.cd_ano_letivo
-                  	INNER JOIN tb_nota_aluno_materia AS nam ON ((nam.cd_aluno = p.id_pessoa) AND (nam.cd_ano_letivo_periodo = tal.id_tipoanoletivo))
-                  	INNER JOIN tb_materia AS m ON m.id_materia = nam.cd_materia
-                  	INNER JOIN tb_materia_padrao AS mp ON mp.id_materiapadrao = m.cd_materia_padrao
-                  	INNER JOIN tb_turma AS t ON t.id_turma = m.cd_turma
-                WHERE ((pre.bl_presente = true) AND (al.cd_ano = 2017))
-                GROUP BY nam.id_notaalunomateria, p.id_pessoa, mp.vl_nome, t.vl_nome ORDER BY p.id_pessoa ASC, nam.cd_materia ASC;";
+     $sql = "select id_pessoa, vl_nome, fl_nota, cd_materia, nomeMat, turma from vw_r3;";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute();

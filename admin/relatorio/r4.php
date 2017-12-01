@@ -37,15 +37,7 @@
    </thead>
    <tbody>
      <?php
-      $sql = "SELECT p.id_pessoa, p.vl_nome, (select extract(YEAR from (select current_date))) - (select extract(YEAR from p.dt_nascimento)) AS idade
-              	FROM tb_pessoa AS p
-              	INNER JOIN tb_escola_usuario AS eu ON p.id_pessoa = eu.cd_usuario
-              	INNER JOIN tb_tipo_funcao AS tf ON tf.id_tipofuncao = eu.cd_tipo_funcao
-              	INNER JOIN tb_escola AS e ON e.id_escola = eu.cd_escola
-              	INNER JOIN tb_turma AS t ON t.cd_escola = e.id_escola
-              	INNER JOIN tb_ano_letivo AS al ON al.id_anoletivo = t.cd_ano_letivo
-              WHERE ((tf.vl_nome = 'Professor(a) de Matemática') OR (tf.vl_nome = 'Professor(a) de Geográfia')) AND (al.cd_ano = 2017)
-              AND ((e.vl_nome = 'SMO') OR (e.vl_nome = 'SJO')) GROUP BY p.id_pessoa ORDER BY p.vl_nome ASC;";
+      $sql = "select id_pessoa, vl_nome, idade from vw_r4;";
 
      // executa a query
      $stmt1 = $pdo->prepare( $sql );

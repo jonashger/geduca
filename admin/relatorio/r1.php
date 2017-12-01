@@ -35,8 +35,7 @@
      </tr>
    </thead>
    <tbody>
-     <?php $sql = "SELECT p.id_pessoa, p.vl_nome, p.vl_cpf FROM tb_pessoa AS p
-                    WHERE ((p.ch_sexo = 'M') AND (p.dt_nascimento < '2007-01-01') AND (p.vl_email LIKE '%@gmail.com')) ORDER BY p.vl_nome DESC";
+     <?php $sql = "select id_pessoa, vl_nome, vl_cpf from vw_r1;";
      // executa a query
      $stmt1 = $pdo->prepare( $sql );
      $stmt1->execute(); ?>
