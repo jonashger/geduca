@@ -24,6 +24,7 @@ if (isset($_POST)) {
   $cidadeAtual =  $_POST['idcidade'];
   $idAtualUF =$_POST['idAtualUF'];
   $escola =$_POST['escola'];
+  echo $escola;
   $sexo= $_POST['sexo'];
   $cpfPai =  preg_replace( '#[^0-9]#', '',  $_POST['cpfPai'] );
   $cpfMae =  preg_replace( '#[^0-9]#', '',  $_POST['cpfMae'] );
@@ -87,12 +88,12 @@ if (isset($_POST)) {
              $stmt->bindParam( 17, $idNULL,PDO::PARAM_STR );
              $stmt->bindParam( 18, $idNULL,PDO::PARAM_STR);
              $stmt->bindParam( 19, $escola,PDO::PARAM_STR);
-             $stmt->bindParam( 20, date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000)),PDO::PARAM_STR);
-             $stmt->bindParam( 21, date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000)),PDO::PARAM_STR);
+             $stmt->bindParam( 20, $dataNasc,PDO::PARAM_STR);
+             $stmt->bindParam( 21, $dataNasc,PDO::PARAM_STR);
 
              $stmt->execute();
              $LAST_ID = $pdo->lastInsertId();
-
+/*
 
             if ($telFixo != "") {
                 $tipo = "F";
@@ -111,7 +112,7 @@ if (isset($_POST)) {
                         $stmt->bindParam( 2, $tipo,PDO::PARAM_STR );
                         $stmt->bindParam( 3, $telCelu,PDO::PARAM_STR );
                        $stmt->execute();
-            }
+            }*/
 
             } catch (PDOException $e) {
             $_SESSION['cadastroError'] = "Não foi possivel realizar o cadastro devido a esse problema: $e. <br> Por favor, Entre em contata com o administrador do sistema caso o erro persista.";
