@@ -25,57 +25,56 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
- 
-@Entity(name="aluno")
+
+@Entity(name = "aluno")
 public class Member implements Serializable {
-    /** Default value included to remove warning. Remove or modify at will. **/
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue
-    @Column(name="id_aluno")
-    private Long id;
+	@Id
+	@GeneratedValue
+	@Column(name = "id_aluno")
+	private Long id;
 
-    @Column(name="tx_nome")
-    private String name;
+	@Column(name = "tx_nome")
+	private String name;
 
-    @Column(name="tx_email")
-    private String email;
-    
-    @Column(name="tx_senha")
-    private String senha;
-    
-    @Column(name="dt_criacao")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCriacao;
+	@Column(name = "tx_email")
+	private String email;
 
-    @Column(name="dt_alteracao")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAlteracao;
-    
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "tx_senha")
+	private String senha;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "dt_criacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataCriacao;
 
-    public String getName() {
-        return name;
-    }
+	@Column(name = "dt_alteracao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataAlteracao;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public Date getDataCriacao() {
 		return dataCriacao;

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="criar_tb_pais" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_pais" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_pais">
+			<column name="id_pais" type="numeric(18,0)" remarks="CODIGO DO PAIS">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_pais" />
+			</column>
+			<column name="tx_pais" type="varchar(255)" remarks="NOME DO PAIS">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_estado" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_estado" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_estado">
+			<column name="id_estado" type="numeric(18,0)" remarks="CÓDIGO DO ESTADO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_estado" />
+			</column>
+			<column name="cd_pais" type="numeric(18,0)" remarks="CÓDIGO DO PAIS">
+				<constraints nullable="false" foreignKeyName="fk_estado_pais"
+					references="tb_pais(id_pais)" />
+			</column>
+			<column name="tx_estado" type="varchar(40)" remarks="DESCRIÇÃO DO ESTADO">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_sigla" type="varchar(2)" remarks="SIGLA DO ESTADO. EX: SC">
+				<constraints nullable="false" />
+			</column>
+			<column name="cd_ibge" type="number(18,0)" remarks="CÓDIGO NOS PADRÕES DO IBGE" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_cidade" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_cidade" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_cidade">
+			<column name="id_cidade" type="numeric(18,0)" remarks="CÓDIGO DO CIDADE">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_cidade" />
+			</column>
+			<column name="cd_estado" type="numeric(18,0)" remarks="CÓDIGO Do estado">
+				<constraints nullable="false" foreignKeyName="fk_cidade_estado"
+					references="tb_estado(id_estado)" />
+			</column>
+			<column name="tx_cidade" type="varchar(100)" remarks="DESCRIÇÃO DO CIDADE">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_bairro" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_bairro" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_bairro">
+			<column name="id_bairro" type="numeric(18,0)" remarks="CÓDIGO DO BAIRRO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_bairro" />
+			</column>
+			<column name="cd_cidade" type="numeric(18,0)" remarks="CÓDIGO DA CIDADE">
+				<constraints nullable="false" foreignKeyName="fk_bairro_cidade"
+					references="tb_cidade(id_cidade)" />
+			</column>
+			<column name="tx_cidade" type="varchar(100)" remarks="DESCRIÇÃO DO BAIRRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_empresa" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_empresa" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_empresa">
+			<column name="id_empresa" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_empresa" />
+			</column>
+			<column name="cd_empresaprincipal" type="numeric(18,0)"
+				remarks="CÓDIGO DA EMPRESA QUUE ADMINISTRA A ESCOLA">
+				<constraints nullable="false" foreignKeyName="fk_empresa_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="tx_razaosocial" type="varchar(255)" remarks="NOME DA EMPRESA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_nomefantasia" type="varchar(255)" remarks="NOME FANTASIA DA EMPRESA">
+				<constraints nullable="false" />
+			</column>
+			<column name="nr_cnpj" type="varchar(18)" remarks="CNPJ DA EMPRESA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_criacao" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_alteracao" type="datetime"
+				remarks="DATA DE ALTERAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_empresa" startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_enderecoempresa" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_enderecoempresa" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_enderecoempresa">
+
+			<column name="ID_ENDERECOEMPRESA" type="numeric(18,0)"
+				remarks="SEQUENCIAL DA EMPRESA">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_enderecoempresa" />
+			</column>
+			<column name="CD_EMPRESA" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_contato"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="cd_bairro" type="numeric(18,0)" remarks="CÓDIGO DO BAIRRO">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_bairro"
+					references="tb_bairro(id_bairro)" />
+			</column>
+			<column name="cd_cidade" type="numeric(18,0)" remarks="CÓDIGO DA CIDADE">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_cidade"
+					references="tb_cidade(id_cidade)" />
+			</column>
+			<column name="cd_estado" type="numeric(18,0)" remarks="CÓDIGO DO ESTADO">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_estado"
+					references="tb_estado(id_estado)" />
+			</column>
+			<column name="cd_pais" type="numeric(18,0)" remarks="CÓDIGO DO pais">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_pais"
+					references="tb_pais(id_pais)" />
+			</column>
+			<column name="tx_rua" type="varchar(18)" remarks="NOME DA RUA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_ruanumero" type="varchar(18)" remarks="NUMERO DA RUA">
+				<constraints nullable="false" />
+			</column>
+			<column name="cd_cep" type="varchar(18)" remarks="CÓDIGO DO CEP">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_criacao" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_alteracao" type="datetime"
+				remarks="DATA DE ALTERAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_ENDERECOEMPRESA"
+			startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_tipocontato" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipocontato" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_tipocontato">
+			<column name="id_tipocontato" type="numeric(18,0)" remarks="ID DO TIPO CONTATO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipocontato" />
+			</column>
+
+			<column name="tx_tipocontato" type="varchar(18)" remarks="NOME DO TIPO DE CONTATO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+
+	<changeSet id="criar_tb_contatoempresa" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_contatoempresa" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_contatoempresa">
+			<column name="id_contatoempresa" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_contatoempresa" />
+			</column>
+			<column name="cd_tipocontato" type="numeric(18,0)" remarks="CÓDIGO DO TIPOCONTATO">
+				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_tipocontato"
+					references="tb_tipocontato(id_tipocontato)" />
+			</column>
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
+				<constraints nullable="false" foreignKeyName="fk_contatoempresa_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="tx_contato" type="varchar(18)" remarks="DESCRICAO DO CONTATO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_contatoempresa"
+			startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_pessoa" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_pessoa" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_pessoa">
+			<column name="id_pessoa" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_pessoa" />
+			</column>
+			<column name="tx_email" type="varchar(90)" remarks="EMAIL DE ACESSO DA PESSOA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_senha" type="varchar(32)" remarks="SENHA DA PESSOA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_nome" type="varchar(90)" remarks="NOME DA PESSOA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_login" type="varchar(25)" remarks="LOGIN PARA ENTRAR NO SISTEMA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_nascimento" type="date" remarks="DATA DE NASCIMENTO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_criacao" type="datetime" remarks="DATA DE CRIAÇÃO DO REGISTRO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_alteracao" type="datetime"
+				remarks="DATA DE ALTERAÇÃO DO REGISTRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_pessoa" startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_tipo" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipo" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_tipo">
+			<column name="id_tipo" type="numeric(18,0)" remarks="ID DO TIPO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipo" />
+			</column>
+			<column name="tx_tipo" type="varchar(90)" remarks="DESCRICAO DO TIPO DE PESSOA">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_tipofuncao" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipofuncao" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_tipofuncao">
+			<column name="id_tipofuncao" type="numeric(18,0)" remarks="ID DO tipofuncao">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipofuncao" />
+			</column>
+			<column name="tx_tipofuncao" type="varchar(90)"
+				remarks="DESCRICAO DO tipofuncao DE PESSOA">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+	</changeSet>
+
+
+
+</databaseChangeLog>

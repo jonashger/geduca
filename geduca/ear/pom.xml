@@ -27,17 +27,7 @@
 
     <artifactId>geduca-ear</artifactId>
     <packaging>ear</packaging>
-
     <name>geduca - ear</name>
-
-    <url>http://jboss.org/jbossas</url>
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
 
     <dependencies>
 
@@ -62,23 +52,9 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>${version.ear.plugin}</version>
                 <configuration>
-                    <!-- Tell Maven we are using Java EE 6 -->
                     <version>6</version>
-                    <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
-                        are in easy way to package any libraries needed in the ear, and automatically 
-                        have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                    <!-- Default context root of the web app is /geduca-web. 
-                        If a custom context root is needed, uncomment the following snippet to
-                        register our War as a web module and set the contextRoot property -->
-                    <!--
-                    <webModule>
-                        <groupId>br.net.fireup</groupId>
-                        <artifactId>geduca-web</artifactId>
-                        <contextRoot>/geduca</contextRoot>
-                    </webModule>
-                    -->
                     </modules>
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
