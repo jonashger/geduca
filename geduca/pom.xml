@@ -73,9 +73,6 @@
 	<profiles>
 		<profile>
 			<id>basic</id>
-			<activation>
-				<activateByDefault>true</activateByDefault>
-			</activation>
 			<build>
 				<finalName>${project.artifactId}-${project.version}</finalName>
 				<pluginManagement>
