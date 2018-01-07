@@ -15,17 +15,25 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.net.fireup</groupId>
 	<artifactId>geduca</artifactId>
-	<version>1.00.00.001</version>
+	<version>1.00.00.000</version>
 	<packaging>pom</packaging>
 
+	<url>http://wildfly.org</url>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
 	<modules>
-		<module>ejb</module>
-		<module>web</module>
-		<module>ear</module>
+		<module>geduca-ejb</module>
+		<module>geduca-web</module>
+		<module>geduca-ear</module>
 	</modules>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.complier.target>1.8</maven.complier.target>
 		<maven.complier.source>1.8</maven.complier.source>
 
@@ -66,39 +74,9 @@
 
 
 		<!-- maven-compiler-plugin -->
-		<maven.compiler.target>1.6</maven.compiler.target>
-		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>basic</id>
-			<build>
-				<finalName>${project.artifactId}-${project.version}</finalName>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<artifactId>maven-compiler-plugin</artifactId>
-							<version>${version.compiler.plugin}</version>
-							<configuration>
-								<source>${maven.compiler.source}</source>
-								<target>${maven.compiler.target}</target>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.widfly.plugins</groupId>
-							<artifactId>wildfly.maven.plugin</artifactId>
-							<version>${version.wildfly.maven.plugin}</version>
-							<inherited>true</inherited>
-							<configuration>
-								<skip>true</skip>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
-		</profile>
-	</profiles>
 
 	<dependencyManagement>
 		<dependencies>
@@ -121,7 +99,6 @@
 				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
-		
 
 			<dependency>
 				<groupId>org.wildfly.bom</groupId>
@@ -144,14 +121,14 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+				<!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
 				<!-- Due to Maven's lack of intelligence with EARs we need to configure 
-					the jboss-as maven plugin to skip deployment for all modules. We then enable 
+					the wildfly maven plugin to skip deployment for all modules. We then enable 
 					it specifically in the ear module. -->
 				<plugin>
-					<groupId>org.jboss.as.plugins</groupId>
-					<artifactId>jboss-as-maven-plugin</artifactId>
-					<version>${version.jboss.maven.plugin}</version>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>${version.wildfly.maven.plugin}</version>
 					<inherited>true</inherited>
 					<configuration>
 						<skip>true</skip>
