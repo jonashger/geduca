@@ -113,10 +113,10 @@
 			<column name="nr_cnpj" type="varchar(18)" remarks="CNPJ DA EMPRESA">
 				<constraints nullable="false" />
 			</column>
-			<column name="dt_criacao" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+			<column name="dt_cadastro" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
 				<constraints nullable="false" />
 			</column>
-			<column name="dt_alteracao" type="datetime"
+			<column name="dt_manutencao" type="datetime"
 				remarks="DATA DE ALTERAÇÃO DO CADASTRO">
 				<constraints nullable="false" />
 			</column>
@@ -174,7 +174,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<createSequence sequenceName="gen_ENDERECOEMPRESA"
+		<createSequence sequenceName="gen_enderecoempresa"
 			startValue="1" />
 	</changeSet>
 
@@ -408,7 +408,8 @@
 					references="tb_empresa(id_empresa)" />
 			</column>
 		</createTable>
-		<createSequence sequenceName="gen_funcao" startValue="1" />
+		<createSequence sequenceName="gen_empresausuario"
+			startValue="1" />
 	</changeSet>
 
 
@@ -590,6 +591,60 @@
 		<createSequence sequenceName="gen_recuperasenha"
 			startValue="1" />
 	</changeSet>
+	<changeSet id="criar_tb_tipomatricula" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipoanoletivo" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_tipoanoletivo">
+			<column name="id_tipoanoletivo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipoanoletivo" />
+			</column>
+			<column name="cd_ano" type="numeric(4)" remarks="ANO DO ANO LETIVO - EX: 2017">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRICAO DO TIPO DE ANO LETIVO">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_tipoanoletivo"
+			startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_anoletivo" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_anoletivo" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_anoletivo">
+			<column name="id_anoletivo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_anoletivo" />
+			</column>
+			<column name="cd_tipoanoletivo" type="numeric(18,0)"
+				remarks="CÓDIGO DO TIPO DO ANO LETIVO">
+				<constraints nullable="false" foreignKeyName="fk_anoletivo_tipoanoletivo"
+					references="tb_tipoanoletivo(id_tipoanoletivo)" />
+			</column>
+			<column name="dt_periodoinicio" type="DATE"
+				remarks="DATA INICIAL DO PERIDO LETIVO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_periodofim" type="DATE"
+				remarks="DATA FINAL DO PERIDO LETIVO">
+				<constraints nullable="false" />
+			</column>
+			<column name="nr_totaldatas" type="numeric(18,0)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_anoletivo"
+			startValue="1" />
+	</changeSet>
 
 	<changeSet id="criar_tb_serie" author="geduca_server">
 		<preConditions onFail="CONTINUE">
@@ -652,6 +707,192 @@
 			startValue="1" />
 	</changeSet>
 
+	<changeSet id="criar_tb_turno" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_turno" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_turno">
+			<column name="id_turno" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_turno" />
+			</column>
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA empresa/ESCOLA">
+				<constraints nullable="false" foreignKeyName="fk_empresa_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="dt_horainicio" type="time">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_horafim" type="time">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_tempoaula" type="time" />
+			<column name="tx_descricao" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+		<createSequence sequenceName="gen_turno" startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_turma" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_turma" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_turma">
+			<column name="id_turma" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_turma" />
+			</column>
+			<column name="cd_serie" type="numeric(18,0)" remarks="CÓDIGO DA SERIE">
+				<constraints nullable="false" foreignKeyName="fk_turma_serie"
+					references="tb_serie(id_serie)" />
+			</column>
+			<column name="cd_turno" type="numeric(18,0)" remarks="CÓDIGO DO TURNO">
+				<constraints nullable="false" foreignKeyName="fk_turma_turno"
+					references="tb_turno(id_turno)" />
+			</column>
+			<column name="cd_anoletivo" type="numeric(18,0)" remarks="CÓDIGO DO ANO LETIVO">
+				<constraints nullable="false" foreignKeyName="fk_turma_anoletivo"
+					references="tb_anoletivo(id_anoletivo)" />
+			</column>
+			<column name="tx_turma" type="varchar(255)" remarks="NOME DA TURMA (72B, 13A)">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_cadastro" type="datetime"
+				remarks="DATA EM QUE FOI FEITO O CADASTRO DA TURMA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_manutencao" type="datetime"
+				remarks="DATA EM QUE FOI FEITA A ALTERAÇÃO DA TURMA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_turma" startValue="1" />
+	</changeSet>
+
+
+
+	<changeSet id="criar_tb_matricula" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_matricula" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_matricula">
+			<column name="id_matricula" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_matricula" />
+			</column>
+			<column name="cd_escola" type="numeric(18,0)" remarks="CÓDIGO DA matricula">
+				<constraints nullable="false" foreignKeyName="fk_matricula_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="cd_aluno" type="numeric(18,0)" remarks="CÓDIGO DA matricula">
+				<constraints nullable="false" foreignKeyName="fk_matricula_pessoa"
+					references="tb_pessoa(id_pessoa)" />
+			</column>
+			<column name="dt_matricula" type="datetime"
+				remarks="DATA EM QUE FOI FEITA A MATRICULA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_cadastro" type="datetime"
+				remarks="DATA EM QUE FOI FEITO O CADASTRO DA MATRICULA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_manutencao" type="datetime"
+				remarks="DATA EM QUE FOI FEITA A ALTERAÇÃO DA MATRICUA MATRICULA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createSequence sequenceName="gen_matricula"
+			startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_matriculaturma" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_matriculaturma" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_matriculaturma">
+			<column name="cd_turma" type="numeric(18,0)" remarks="CÓDIGO DA TURMA">
+				<constraints nullable="false" foreignKeyName="fk_matriculaturma_turma"
+					references="tb_turma(id_turma)" primaryKey="true" primaryKeyName="matriculaturma_pk" />
+			</column>
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
+				<constraints nullable="false" foreignKeyName="fk_matriculaturma_matricula"
+					references="tb_matricula(id_matricula)" primaryKey="true"
+					primaryKeyName="matriculaturma_pk" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="criar_tb_materia" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_materia" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_materia">
+			<column name="id_materia" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_materia" />
+			</column>
+			<column name="cd_materiapadrao" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_materia_materiapadrao"
+					references="tb_materiapadrao(id_materiapadrao)" />
+			</column>
+			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_materia_pessoa"
+					references="tb_pessoa(id_pessoa)" />
+			</column>
+			<column name="cd_turma" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_materia_turma"
+					references="tb_turma(id_turma)" />
+			</column>
+		</createTable>
+
+		<createSequence sequenceName="gen_materia" startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_matriculalog" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_matriculalog" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_matriculalog">
+
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA matricula">
+				<constraints nullable="false" foreignKeyName="fk_matriculalog_matricula"
+					references="tb_matricula(id_matricula)" primaryKey="true"
+					primaryKeyName="motriculalog_pk" />
+			</column>
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA ESCOLA">
+				<constraints nullable="false" foreignKeyName="fk_matriculalog_empresa"
+					references="tb_empresa(id_empresa)" primaryKey="true"
+					primaryKeyName="motriculalog_pk" />
+			</column>
+			<column name="dt_log" type="datetime" remarks="DATA EM QUE FOI GERADO O LOG">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="motriculalog_pk" />
+			</column>
+			<column name="dt_matricula" type="datetime"
+				remarks="DATA EM QUE FOI FEITA A MATRICULA MATRICULA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+
 	<changeSet id="criar_tb_notalog" author="geduca_server">
 		<preConditions onFail="CONTINUE">
 			<not>
@@ -685,35 +926,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="criar_tb_turno" author="geduca_server">
-		<preConditions onFail="CONTINUE">
-			<not>
-				<tableExists tableName="tb_turno" />
-			</not>
-		</preConditions>
-		<createTable tableName="tb_turno">
-			<column name="id_turno" type="numeric(18,0)" remarks="ID SEQUENCIAL">
-				<constraints primaryKey="true" nullable="false"
-					primaryKeyName="pk_turno" />
-			</column>
-			<column name="cd_escola" type="numeric(18,0)" remarks="CÓDIGO DA ESCOLA">
-				<constraints nullable="false" foreignKeyName="fk_escola_escola"
-					references="tb_escola(id_escola)" />
-			</column>
-			<column name="dt_horainicio" type="time">
-				<constraints nullable="false" />
-			</column>
-			<column name="dt_horafim" type="time">
-				<constraints nullable="false" />
-			</column>
-			<column name="dt_tempoaula" type="time" />
-			<column name="tx_descricao" type="varchar(255)">
-				<constraints nullable="false" />
-			</column>
 
-		</createTable>
-		<createSequence sequenceName="gen_turno" startValue="1" />
-	</changeSet>
 
 	<changeSet id="criar_tb_tempointervalo" author="geduca_server">
 		<preConditions onFail="CONTINUE">
@@ -739,60 +952,7 @@
 			startValue="1" />
 	</changeSet>
 
-	<changeSet id="criar_tb_tipoanoletivo" author="geduca_server">
-		<preConditions onFail="CONTINUE">
-			<not>
-				<tableExists tableName="tb_tipoanoletivo" />
-			</not>
-		</preConditions>
-		<createTable tableName="tb_tipoanoletivo">
-			<column name="id_tipoanoletivo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
-				<constraints primaryKey="true" nullable="false"
-					primaryKeyName="pk_tipoanoletivo" />
-			</column>
-			<column name="cd_ano" type="numeric(4)" remarks="ANO DO ANO LETIVO - EX: 2017">
-				<constraints nullable="false" />
-			</column>
-			<column name="tx_descricao" type="varchar(255)"
-				remarks="DESCRICAO DO TIPO DE ANO LETIVO">
-				<constraints nullable="true" />
-			</column>
-		</createTable>
-		<createSequence sequenceName="gen_tipoanoletivo"
-			startValue="1" />
-	</changeSet>
 
-	<changeSet id="criar_tb_anoletivo" author="geduca_server">
-		<preConditions onFail="CONTINUE">
-			<not>
-				<tableExists tableName="tb_anoletivo" />
-			</not>
-		</preConditions>
-		<createTable tableName="tb_anoletivo">
-			<column name="id_anoletivo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
-				<constraints primaryKey="true" nullable="false"
-					primaryKeyName="pk_anoletivo" />
-			</column>
-			<column name="cd_tipoanoletivo" type="numeric(18,0)"
-				remarks="CÓDIGO DO TIPO DO ANO LETIVO">
-				<constraints nullable="false" foreignKeyName="fk_anoletivo_tipoanoletivo"
-					references="tb_tipoanoletivo(id_tipoanoletivo)" />
-			</column>
-			<column name="dt_periodoinicio" type="DATE"
-				remarks="DATA INICIAL DO PERIDO LETIVO">
-				<constraints nullable="false" />
-			</column>
-			<column name="dt_periodofim" type="DATE"
-				remarks="DATA FINAL DO PERIDO LETIVO">
-				<constraints nullable="false" />
-			</column>
-			<column name="nr_totaldatas" type="numeric(18,0)">
-				<constraints nullable="true" />
-			</column>
-		</createTable>
-		<createSequence sequenceName="gen_anoletivo"
-			startValue="1" />
-	</changeSet>
 
 	<changeSet id="criar_tb_professormateria" author="geduca_server">
 		<preConditions onFail="CONTINUE">
@@ -829,11 +989,12 @@
 			<column name="cd_professormateria" type="numeric(18,0)"
 				remarks="CÓDIGO DO PROFESSOR">
 				<constraints nullable="false"
-					foreignKeyName="fk_professorturma_professormateria" references="tb_professormateria(id_professormateria)" />
+					foreignKeyName="fk_professorturma_professormateria" references="tb_professormateria(id_professormateria)"
+					primaryKey="true" primaryKeyName="professormateria_pk" />
 			</column>
 			<column name="cd_turma" type="numeric(18,0)" remarks="CÓDIGO DA TURMA">
 				<constraints nullable="false" foreignKeyName="fk_professorturma_turma"
-					references="tb_turma(id_turma)" />
+					references="tb_turma(id_turma)" primaryKey="true" primaryKeyName="professormateria_pk" />
 			</column>
 		</createTable>
 		<createSequence sequenceName="gen_professorturma"
@@ -841,4 +1002,345 @@
 	</changeSet>
 
 
+	<changeSet id="criar_tb_notaalunoaspecto" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_notaalunoaspecto" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_notaalunoaspecto">
+			<column name="id_notaalunoaspecto" type="numeric(18,0)"
+				remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_notaalunoaspecto" />
+			</column>
+			<column name="cd_materia" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_notaalunoaspecto_materia"
+					references="tb_materia(id_materia)" />
+			</column>
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
+				<constraints nullable="false" foreignKeyName="fk_notaalunoaspecto_matricula"
+					references="tb_matricula(id_matricula)" />
+			</column>
+			<column name="cd_anoletivo" type="numeric(18,0)" remarks="CÓDIGO DO ANO LETIVO">
+				<constraints nullable="false" foreignKeyName="fk_notaalunoaspecto_anoletivo"
+					references="tb_anoletivo(id_anoletivo)" />
+			</column>
+			<column name="vl_nota" type="numeric(4,2)" remarks="NOTA QUE O ALUNO TIROU">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_obs" type="varchar(255)"
+				remarks="SE TEVE ALGUMA COISA QUE ACONTECEU NA PROVA A SER RELATADO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_notaalunoaspecto"
+			startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_notaalunomateria" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_notaalunomateria" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_notaalunomateria">
+			<column name="id_notaalunomateria" type="numeric(18,0)"
+				remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_notaalunomateria" />
+			</column>
+			<column name="cd_materia" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_notaalunomateria_materia"
+					references="tb_materia(id_materia)" />
+			</column>
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
+				<constraints nullable="false" foreignKeyName="fk_notaalunomateria_matricula"
+					references="tb_matricula(id_matricula)" />
+			</column>
+			<column name="cd_anoletivo" type="numeric(18,0)" remarks="CÓDIGO DO ANO LETIVO">
+				<constraints nullable="false" foreignKeyName="fk_notaalunomateria_anoletivo"
+					references="tb_anoletivo(id_anoletivo)" />
+			</column>
+			<column name="vl_nota" type="numeric(4,2)" remarks="NOTA QUE O ALUNO TIROU">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_obs" type="varchar(255)"
+				remarks="SE TEVE ALGUMA COISA QUE ACONTECEU NA PROVA A SER RELATADO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_notaalunomateria"
+			startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_avaliacaomateria" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_avaliacaomateria" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_avaliacaomateria">
+			<column name="id_avaliacaomateria" type="numeric(18,0)"
+				remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_avaliacaomateria" />
+			</column>
+			<column name="cd_materia" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_avaliacaomateria_materia"
+					references="tb_materia(id_materia)" />
+			</column>
+			<column name="cd_anoletivo" type="numeric(18,0)" remarks="CÓDIGO DO ANOLETIVO">
+				<constraints nullable="false" foreignKeyName="fk_avaliacaomateria_anoletivo"
+					references="tb_anoletivo(id_anoletivo)" />
+			</column>
+
+			<column name="tx_nomeavaliacao" type="varchar(255)"
+				remarks="DESCRICAO DA AVALIZACAO REALIZADA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_observacao" type="varchar(255)"
+				remarks="ALGUMA OBSERVACAO SOBRE A PROVA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_avaliacao" type="datetime"
+				remarks="DATA EM QUE A AVALIZACAO FOI REALIZADA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_avaliacaomateria"
+			startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_avaliacaonota" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_avaliacaonota" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_avaliacaonota">
+			<column name="cd_avaliacaonota" type="numeric(18,0)" remarks="CÓDIGO DA AVALIACAONOTA">
+				<constraints nullable="false"
+					foreignKeyName="fk_avaliacaonota_avaliacaomateria"
+					references="tb_avaliacaomateria(id_avaliacaomateria)" primaryKey="true"
+					primaryKeyName="avaliacaonota_pk" />
+			</column>
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
+				<constraints nullable="false" foreignKeyName="fk_avaliacaonota_matricula"
+					references="tb_matricula(id_matricula)" primaryKey="true"
+					primaryKeyName="avaliacaonota_pk" />
+			</column>
+
+			<column name="vl_nota" type="numeric(4,2)"
+				remarks="DESCRICAO DA AVALIACAO REALIZADA">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+	</changeSet>
+
+
+	<changeSet id="criar_tb_diario" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_diario" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_diario">
+			<column name="id_diario" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_diario" />
+			</column>
+			<column name="cd_materia" type="numeric(18,0)" remarks="CÓDIGO DA MATERIA">
+				<constraints nullable="false" foreignKeyName="fk_diario_materia"
+					references="tb_materia(id_materia)" />
+			</column>
+			<column name="cd_anoletivo" type="numeric(18,0)" remarks="CÓDIGO DO ANO LETIVO">
+				<constraints nullable="false" foreignKeyName="fk_diario_anoletivo"
+					references="tb_anoletivo(id_anoletivo)" />
+			</column>
+
+
+			<column name="tx_observacao" type="varchar(255)"
+				remarks="ALGUMA OBSERVACAO SOBRE A PROVA">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_diario" type="datetime"
+				remarks="DATA EM QUE FOI LANCADO A PRESENÇA FOI REALIZADA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_diario" startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_diariopresenca" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_diariopresenca" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_diariopresenca">
+			<column name="id_diariopresenca" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_diariopresenca" />
+			</column>
+			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
+				<constraints nullable="false" foreignKeyName="fk_diariopresenca_matricula"
+					references="tb_matricula(id_matricula)" />
+			</column>
+			<column name="cd_diario" type="numeric(18,0)" remarks="CÓDIGO DO DIARIO">
+				<constraints nullable="false" foreignKeyName="fk_diariopresenca_diario"
+					references="tb_diario(id_diario)" />
+			</column>
+			<column name="tx_observacao" type="varchar(300)"
+				remarks="ALGUMA OBSERVACAO SOBRE A PRESENCA">
+				<constraints nullable="false" />
+			</column>
+			<column name="fl_presente" type="boolean" remarks="ALUNO PRESENTE">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_diariopresenca"
+			startValue="1" />
+	</changeSet>
+
+
+	<!-- TRANSPORTE -->
+
+	<changeSet id="criar_tb_rota" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_rota" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_rota">
+			<column name="id_rota" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_rota" />
+			</column>
+
+			<column name="tx_rota" type="varchar(255)" remarks="DESCRIÇÃO DA ROTA">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_percurso" type="varchar(255)"
+				remarks="DESCRIÇÃO DO PERCURSO QUE A ROTA FAZ">
+				<constraints nullable="false" />
+			</column>
+			<column name="fl_ativo" type="boolean" remarks="ROTA ATIVA">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="vl_kmdiario" type="numeric(18,4)" remarks="QUILOMETRAGEM DE KM POR DIA">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_rota" startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_veiculo" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_veiculo" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_veiculo">
+			<column name="id_veiculo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_veiculo" />
+			</column>
+			<column name="tx_veiculo" type="varchar(255)" remarks="DESCRIÇÃO/MODELO DO VEICULO">
+				<constraints nullable="false" />
+			</column>
+			<column name="tx_placa" type="varchar(8)" remarks="NUMERO DA PLACA DO VEICULO">
+				<constraints nullable="false" />
+			</column>
+			<column name="fl_ativo" type="boolean" remarks="veiculo ATIVA">
+				<constraints nullable="false" />
+			</column>
+			<column name="vl_kmdiario" type="numeric(18,4)" remarks="quilometragem de km por dia">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_veiculo" startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_rotaveiculo" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_rotaveiculo" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_rotaveiculo">
+			<column name="id_rotaveiculo" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_rotaveiculo" />
+			</column>
+			<column name="cd_veiculo" type="numeric(18,0)" remarks="CÓDIGO DA veiculo">
+				<constraints nullable="false" foreignKeyName="fk_rotaveiculo_veiculo"
+					references="tb_veiculo(id_veiculo)" />
+			</column>
+			<column name="cd_rota" type="numeric(18,0)" remarks="CÓDIGO DA rota">
+				<constraints nullable="false" foreignKeyName="fk_rotaveiculo_rota"
+					references="tb_rota(id_rota)" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_rotaveiculo"
+			startValue="1" />
+	</changeSet>
+
+	<changeSet id="criar_tb_rotaaluno" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_rotaaluno" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_rotaaluno">
+			<column name="id_rotaaluno" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_rotaaluno" />
+			</column>
+			<column name="cd_rotaveiculo" type="numeric(18,0)" remarks="CÓDIGO DA rotaveiculo">
+				<constraints nullable="false" foreignKeyName="fk_rotaaluno_rotaveiculo"
+					references="tb_rotaveiculo(id_rotaveiculo)" />
+			</column>
+			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA pessoa">
+				<constraints nullable="false" foreignKeyName="fk_pessoaaluno_pessoa"
+					references="tb_pessoa(id_pessoa)" />
+			</column>
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA empresa">
+				<constraints nullable="false" foreignKeyName="fk_empresaaluno_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_rotaaluno"
+			startValue="1" />
+	</changeSet>
+
+
+	<changeSet id="criar_tb_veiculotransportadora" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_veiculotransportadora" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_veiculotransportadora">
+			<column name="cd_veiculo" type="numeric(18,0)" remarks="CÓDIGO DA veiculo">
+				<constraints nullable="false" foreignKeyName="fk_veiculotransportadora_veiculo"
+					references="tb_veiculo(id_veiculo)" />
+			</column>
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA empresa">
+				<constraints nullable="false" foreignKeyName="fk_empresaaluno_empresa"
+					references="tb_empresa(id_empresa)" />
+			</column>
+			<column name="dt_cadastro" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_manutencao" type="datetime"
+				remarks="DATA DE ALTERAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
 </databaseChangeLog>
