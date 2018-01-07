@@ -3,12 +3,12 @@ package br.net.fireup.geduca.bo;
 
 import java.util.List;
 
-import br.net.fireup.geduca.model.Member;
+import br.net.fireup.geduca.model.Pessoa;
 
 public interface UsuarioBO {
 	
-	public abstract Member adquirirUsuario();
+	public abstract Pessoa adquirirUsuario();
 
-	public abstract void enviar(List<Member> lista);
+	public abstract void enviar(List<Pessoa> lista);
 
 }

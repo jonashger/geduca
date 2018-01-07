@@ -16,7 +16,12 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="geduca" transaction-type="JTA">
 		<jta-data-source>java:/geduca</jta-data-source>
-		<class>br.net.fireup.geduca.model.Member</class>
+		<class>br.net.fireup.geduca.model.Pessoa</class>
+		<class>br.net.fireup.geduca.model.Empresa</class>
+		<class>br.net.fireup.geduca.model.Pais</class>
+		<class>br.net.fireup.geduca.model.Estado</class>
+		<class>br.net.fireup.geduca.model.Cidade</class>
+		<class>br.net.fireup.geduca.model.Bairro</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->

@@ -37,9 +37,7 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-ejb-plugin</artifactId>
 						<version>${version.ejb.plugin}</version>
-						<configuration>
-							<ejbVersion>3.1</ejbVersion>
-						</configuration>
+
 					</plugin>
 					<plugin>
 						<groupId>com.mysema.maven</groupId>
@@ -103,39 +101,6 @@
 		</profile>
 	</profiles>
 	<dependencies>
-
-		<!-- Declare the APIs we depend on and need for compilation. All of them 
-			are provided by JBoss AS 7 -->
-
-
-		<!-- Import the EJB API, we use provided scope as the API is included in 
-			JBoss WildFly -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the CDI API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
 
 		<!-- Test scope dependencies -->

@@ -6,9 +6,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.net.fireup.geduca.dao.UsuarioDAO;
-import br.net.fireup.geduca.model.Member;
+import br.net.fireup.geduca.model.Pessoa;
 
-public class UsuarioDAOImpl extends GenericDAOImpl<Member> implements UsuarioDAO {
+public class UsuarioDAOImpl extends GenericDAOImpl<Pessoa> implements UsuarioDAO {
 
 	@Inject
 	private transient Logger logger;
@@ -17,7 +17,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl<Member> implements UsuarioDAO
 	private EntityManager entityManager;
 
 	@Override
-	public Member adquirirUsuario() {
+	public Pessoa adquirirUsuario() {
 		logger.info("==> Executando o método adquirirUsuario");
 
 		return buscarPorID(1L);

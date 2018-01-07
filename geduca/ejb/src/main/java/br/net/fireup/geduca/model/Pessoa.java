@@ -6,27 +6,39 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity(name = "aluno")
-public class Member implements Serializable {
+@Entity
+@Table(name = "tb_pessoa")
+@SequenceGenerator(name = "gen_pessoa", sequenceName = "gen_pessoa", allocationSize = 1)
+public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_pessoa")
 	@Column(name = "id_aluno")
 	private Long id;
 
 	@Column(name = "tx_nome")
-	private String name;
+	private String name; 
 
 	@Column(name = "tx_email")
 	private String email;
 
 	@Column(name = "tx_senha")
 	private String senha;
+
+	@Column(name = "tx_login")
+	private String login;
+
+	@Column(name = "dt_nascimento")
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento;
 
 	@Column(name = "dt_criacao")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -82,6 +94,22 @@ public class Member implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 }

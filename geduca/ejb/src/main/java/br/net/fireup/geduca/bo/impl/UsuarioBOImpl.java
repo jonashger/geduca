@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import br.net.fireup.geduca.bo.UsuarioBO;
 import br.net.fireup.geduca.dao.UsuarioDAO;
-import br.net.fireup.geduca.model.Member;
+import br.net.fireup.geduca.model.Pessoa;
 import br.net.fireup.geduca.util.LongUtil;
 
 @Stateless
@@ -17,14 +17,14 @@ public class UsuarioBOImpl implements UsuarioBO {
 	
 	
 	@Override
-	public Member adquirirUsuario() {
+	public Pessoa adquirirUsuario() {
 		
 		return usuarioDAO.adquirirUsuario();
 	}
 
 
 	@Override
-	public void enviar(List<Member> lista) {
+	public void enviar(List<Pessoa> lista) {
 		usuarioDAO.salvar(lista);
 	
 	}

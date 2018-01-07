@@ -1,9 +1,9 @@
 package br.net.fireup.geduca.dao;
 
-import br.net.fireup.geduca.model.Member;
+import br.net.fireup.geduca.model.Pessoa;
 
-public interface UsuarioDAO extends GenericDAO<Member>{
+public interface UsuarioDAO extends GenericDAO<Pessoa>{
 	
-	public abstract Member adquirirUsuario();
+	public abstract Pessoa adquirirUsuario();
 
 }

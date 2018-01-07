@@ -82,7 +82,7 @@
 				<constraints nullable="false" foreignKeyName="fk_bairro_cidade"
 					references="tb_cidade(id_cidade)" />
 			</column>
-			<column name="tx_cidade" type="varchar(100)" remarks="DESCRIÇÃO DO BAIRRO">
+			<column name="tx_bairro" type="varchar(100)" remarks="DESCRIÇÃO DO BAIRRO">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -113,7 +113,7 @@
 			<column name="nr_cnpj" type="varchar(18)" remarks="CNPJ DA EMPRESA">
 				<constraints nullable="false" />
 			</column>
-			<column name="dt_cadastro" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+			<column name="dt_criacao" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
 				<constraints nullable="false" />
 			</column>
 			<column name="dt_manutencao" type="datetime"
