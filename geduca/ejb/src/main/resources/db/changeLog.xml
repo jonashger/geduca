@@ -132,12 +132,12 @@
 		</preConditions>
 		<createTable tableName="tb_enderecoempresa">
 
-			<column name="ID_ENDERECOEMPRESA" type="numeric(18,0)"
+			<column name="id_enderecoempresa" type="numeric(18,0)"
 				remarks="SEQUENCIAL DA EMPRESA">
 				<constraints primaryKey="true" nullable="false"
 					primaryKeyName="pk_enderecoempresa" />
 			</column>
-			<column name="CD_EMPRESA" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
 				<constraints nullable="false" foreignKeyName="fk_enderecoempresa_contato"
 					references="tb_empresa(id_empresa)" />
 			</column>
@@ -296,11 +296,8 @@
 				remarks="DESCRICAO DO tipofuncao DE PESSOA">
 				<constraints nullable="false" />
 			</column>
-
 		</createTable>
-
 	</changeSet>
-
 
 	<changeSet id="criar_tb_funcao" author="geduca_server">
 		<preConditions onFail="CONTINUE">
@@ -338,7 +335,7 @@
 		</preConditions>
 		<createTable tableName="tb_enderecopessoa">
 
-			<column name="ID_enderecopessoa" type="numeric(18,0)"
+			<column name="id_enderecopessoa" type="numeric(18,0)"
 				remarks="SEQUENCIAL DO ENDERECO DA PESSOA">
 				<constraints primaryKey="true" nullable="false"
 					primaryKeyName="pk_enderecopessoa" />
@@ -391,13 +388,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="tb_empresausuario">
-			<column name="id_empresausuario" type="numeric(18,0)" remarks="ID DA empresa USUARIO ">
-				<constraints primaryKey="true" nullable="false"
-					primaryKeyName="pk_empresausuario" />
-			</column>
 			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA PESSOA">
 				<constraints nullable="false" foreignKeyName="fk_empresausuario_pessoa"
-					references="tb_pessoa(id_pessoa)" />
+					references="tb_pessoa(id_pessoa)" primaryKey="true" primaryKeyName="empresausuario_pk" />
 			</column>
 			<column name="cd_funcao" type="numeric(18,0)" remarks="TIPO DA FUNCAO DA PESSOA">
 				<constraints nullable="false" foreignKeyName="fk_empresausuario_funcao"
@@ -405,11 +398,10 @@
 			</column>
 			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
 				<constraints nullable="false" foreignKeyName="fk_empresausuario_empresa"
-					references="tb_empresa(id_empresa)" />
+					references="tb_empresa(id_empresa)" primaryKey="true"
+					primaryKeyName="empresausuario_pk" />
 			</column>
 		</createTable>
-		<createSequence sequenceName="gen_empresausuario"
-			startValue="1" />
 	</changeSet>
 
 
@@ -469,7 +461,7 @@
 				<constraints primaryKey="true" nullable="false"
 					primaryKeyName="pk_sexo" />
 			</column>
-			<column name="cd_tipocontato" type="numeric(18,0)" remarks="CÓDIGO DO TIPOCONTATO">
+			<column name="cd_tiposexo" type="numeric(18,0)" remarks="CÓDIGO DO TIPOCONTATO">
 				<constraints nullable="false" foreignKeyName="fk_sexo_tiposexo"
 					references="tb_tiposexo(id_tiposexo)" />
 			</column>
@@ -591,6 +583,7 @@
 		<createSequence sequenceName="gen_recuperasenha"
 			startValue="1" />
 	</changeSet>
+	
 	<changeSet id="criar_tb_tipomatricula" author="geduca_server">
 		<preConditions onFail="CONTINUE">
 			<not>
@@ -1122,9 +1115,8 @@
 		<createTable tableName="tb_avaliacaonota">
 			<column name="cd_avaliacaonota" type="numeric(18,0)" remarks="CÓDIGO DA AVALIACAONOTA">
 				<constraints nullable="false"
-					foreignKeyName="fk_avaliacaonota_avaliacaomateria"
-					references="tb_avaliacaomateria(id_avaliacaomateria)" primaryKey="true"
-					primaryKeyName="avaliacaonota_pk" />
+					foreignKeyName="fk_avaliacaonota_avaliacaomateria" references="tb_avaliacaomateria(id_avaliacaomateria)"
+					primaryKey="true" primaryKeyName="avaliacaonota_pk" />
 			</column>
 			<column name="cd_matricula" type="numeric(18,0)" remarks="CÓDIGO DA MATRICULA">
 				<constraints nullable="false" foreignKeyName="fk_avaliacaonota_matricula"
@@ -1132,8 +1124,7 @@
 					primaryKeyName="avaliacaonota_pk" />
 			</column>
 
-			<column name="vl_nota" type="numeric(4,2)"
-				remarks="DESCRICAO DA AVALIACAO REALIZADA">
+			<column name="vl_nota" type="numeric(4,2)" remarks="DESCRICAO DA AVALIACAO REALIZADA">
 				<constraints nullable="false" />
 			</column>
 
