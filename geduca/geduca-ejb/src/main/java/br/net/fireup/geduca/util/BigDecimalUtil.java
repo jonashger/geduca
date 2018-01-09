@@ -36,7 +36,7 @@ public class BigDecimalUtil {
 	 */
 	public static Boolean isNullOrEmpty(BigDecimal valor) {
 
-		if (valor.equals(null)) {
+		if (valor == null) {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;

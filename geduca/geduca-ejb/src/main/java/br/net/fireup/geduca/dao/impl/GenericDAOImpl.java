@@ -45,7 +45,6 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		ParameterizedType pt = (ParameterizedType) t;
 		persistedClass = (Class<T>) pt.getActualTypeArguments()[0];
 	}
-
 	public void setPersistClass(Class<T> pc) {
 		this.persistedClass = pc;
 	}
@@ -65,37 +64,14 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 
 	@Override
 	public T salvar(T entity) {
-		UserTransaction  t = sessionContext.getUserTransaction();
+		UserTransaction t = sessionContext.getUserTransaction();
 		try {
 			t.begin();
-		} catch (NotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			getEntityManager().merge(entity);
 			getEntityManager().flush();
-			try {
-				t.commit();
-			} catch (SecurityException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IllegalStateException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (RollbackException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (HeuristicMixedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (HeuristicRollbackException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SystemException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
+			t.commit();
+		} catch (NotSupportedException | SystemException | IllegalStateException | SecurityException
+				| HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
 			e.printStackTrace();
 		}
 		return entity;
