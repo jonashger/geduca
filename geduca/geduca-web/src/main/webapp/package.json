@@ -1,0 +1,22 @@
+{
+  "name": "geduca-package",
+  "version": "1.0.0",
+  "description": "G-Educa React packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonashger/geduca.git"
+  },
+  "author": "marcelolx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonashger/geduca/issues"
+  },
+  "homepage": "https://github.com/jonashger/geduca#readme",
+  "devDependencies": {
+    "create-react-app": "^1.4.3"
+  }
+}
