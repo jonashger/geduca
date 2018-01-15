@@ -55,8 +55,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-      <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
-      <dependency>
+       <dependency>
          <groupId>javax.enterprise</groupId>
          <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
@@ -65,7 +64,7 @@
    </dependencies>
 
    <build>
-      <finalName>${project.artifactId}</finalName>
+      <finalName>${project.artifactId}-${project.version}</finalName>
       <plugins>
          <plugin>
             <artifactId>maven-war-plugin</artifactId>

@@ -3,7 +3,9 @@ package br.net.fireup.geduca.bo.impl;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
+import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
 import br.net.fireup.geduca.model.Pessoa;
@@ -11,6 +13,7 @@ import br.net.fireup.geduca.model.Pessoa;
 @Stateless
 public class PessoaBOImpl implements PessoaBO {
 
+	@LoggerUtil
 	private Logger logger;
 
 	@Override
