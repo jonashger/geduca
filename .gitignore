@@ -1,2 +1,3 @@
 /target/
 /geduca/geduca-web/src/main/webapp/node_modules/
+/geduca/geduca-web/src/main/webapp/node_modules/geduca/node_modules/
