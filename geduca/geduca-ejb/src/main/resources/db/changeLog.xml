@@ -584,7 +584,7 @@
 			startValue="1" />
 	</changeSet>
 	
-	<changeSet id="criar_tb_tipomatricula" author="geduca_server">
+	<changeSet id="criar_tb_tipoanoletivo" author="geduca_server">
 		<preConditions onFail="CONTINUE">
 			<not>
 				<tableExists tableName="tb_tipoanoletivo" />
@@ -885,6 +885,9 @@
 		</createTable>
 
 	</changeSet>
+	
+	
+	<!-- TODO -->
 
 	<changeSet id="criar_tb_notalog" author="geduca_server">
 		<preConditions onFail="CONTINUE">
