@@ -25,7 +25,7 @@
       <version>1.00.00.000</version>
    </parent>
 
-   <artifactId>geduca-web</artifactId>
+   <artifactId>geduca-api</artifactId>
    <packaging>war</packaging>
 
    <name>geduca: WAR Module</name>

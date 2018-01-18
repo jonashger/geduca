@@ -44,7 +44,7 @@
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
             <groupId>br.net.fireup</groupId>
-            <artifactId>geduca-web</artifactId>
+            <artifactId>geduca-api</artifactId>
             <type>war</type>
         </dependency>
         <dependency>

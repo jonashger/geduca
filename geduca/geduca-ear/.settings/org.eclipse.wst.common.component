@@ -2,7 +2,7 @@
     <wb-module deploy-name="geduca-ear-1.00.00.000">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
-        <dependent-module archiveName="geduca-web.war" deploy-path="/" handle="module:/resource/geduca-web/geduca-web">
+        <dependent-module archiveName="geduca-api.war" deploy-path="/" handle="module:/resource/geduca-api/geduca-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="geduca-ejb.jar" deploy-path="/" handle="module:/resource/geduca-ejb/geduca-ejb">

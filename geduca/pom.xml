@@ -28,7 +28,7 @@
 	</licenses>
 	<modules>
 		<module>geduca-ejb</module>
-		<module>geduca-web</module>
+		<module>geduca-api</module>
 		<module>geduca-ear</module>
 	</modules>
 
@@ -97,7 +97,7 @@
 				in every module -->
 			<dependency>
 				<groupId>br.net.fireup</groupId>
-				<artifactId>geduca-web</artifactId>
+				<artifactId>geduca-api</artifactId>
 				<version>${project.version}</version>
 				<type>war</type>
 				<scope>compile</scope>

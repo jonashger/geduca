@@ -3,6 +3,7 @@
 	<name>geduca-ear</name>
 	<comment></comment>
 	<projects>
+		<project>geduca-api</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
