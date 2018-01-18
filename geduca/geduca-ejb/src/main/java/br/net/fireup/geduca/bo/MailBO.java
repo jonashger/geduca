@@ -1,7 +1,6 @@
 package br.net.fireup.geduca.bo;
 
 import java.io.File;
-import java.util.List;
 
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
 

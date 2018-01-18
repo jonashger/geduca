@@ -20,7 +20,7 @@ public class AnoLetivo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_anoletivo")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_anoletivo")
 	@Column(name = "id_anoletivo")
 	private Long id;
 

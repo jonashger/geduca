@@ -1,8 +1,9 @@
 package br.net.fireup.geduca.dao;
 
-import br.net.fireup.geduca.dto.ValorBooleanoDTO;
-import br.net.fireup.geduca.model.Pessoa;
+import br.net.fireup.geduca.model.TicketAcesso;
 
-public interface TicketAcessoDAO extends GenericDAO<Pessoa> {
-	public abstract ValorBooleanoDTO removerTodos();
+public interface TicketAcessoDAO extends GenericDAO<TicketAcesso> {
+
+	public abstract void removerTodos();
+
 }

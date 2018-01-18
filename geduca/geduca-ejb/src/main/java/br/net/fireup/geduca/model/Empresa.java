@@ -20,12 +20,12 @@ public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_empresa")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_empresa")
 	@Column(name = "id_empresa")
 	private Long id;
 
 	@Column(name = "cd_empresaprincipal")
-	private Long empresaPrincipal; 
+	private Long empresaPrincipal;
 
 	@Column(name = "tx_razaosocial")
 	private String razaoSocial;

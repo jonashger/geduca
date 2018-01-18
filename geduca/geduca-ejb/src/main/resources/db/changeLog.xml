@@ -583,7 +583,7 @@
 		<createSequence sequenceName="gen_recuperasenha"
 			startValue="1" />
 	</changeSet>
-	
+
 	<changeSet id="criar_tb_tipoanoletivo" author="geduca_server">
 		<preConditions onFail="CONTINUE">
 			<not>
@@ -885,8 +885,8 @@
 		</createTable>
 
 	</changeSet>
-	
-	
+
+
 	<!-- TODO -->
 
 	<changeSet id="criar_tb_notalog" author="geduca_server">
@@ -1250,10 +1250,10 @@
 			<column name="tx_placa" type="varchar(8)" remarks="NUMERO DA PLACA DO VEICULO">
 				<constraints nullable="false" />
 			</column>
-			<column name="fl_ativo" type="boolean" remarks="veiculo ATIVA">
+			<column name="fl_ativo" type="boolean" remarks="VEICULO ATIVO">
 				<constraints nullable="false" />
 			</column>
-			<column name="vl_kmdiario" type="numeric(18,4)" remarks="quilometragem de km por dia">
+			<column name="vl_kmdiario" type="numeric(18,4)" remarks="QUILOMETRAGEM DE KM POR DIA">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -1271,11 +1271,11 @@
 				<constraints primaryKey="true" nullable="false"
 					primaryKeyName="pk_rotaveiculo" />
 			</column>
-			<column name="cd_veiculo" type="numeric(18,0)" remarks="CÓDIGO DA veiculo">
+			<column name="cd_veiculo" type="numeric(18,0)" remarks="CÓDIGO DA VEICULO">
 				<constraints nullable="false" foreignKeyName="fk_rotaveiculo_veiculo"
 					references="tb_veiculo(id_veiculo)" />
 			</column>
-			<column name="cd_rota" type="numeric(18,0)" remarks="CÓDIGO DA rota">
+			<column name="cd_rota" type="numeric(18,0)" remarks="CÓDIGO DA ROTA">
 				<constraints nullable="false" foreignKeyName="fk_rotaveiculo_rota"
 					references="tb_rota(id_rota)" />
 			</column>
@@ -1295,16 +1295,16 @@
 				<constraints primaryKey="true" nullable="false"
 					primaryKeyName="pk_rotaaluno" />
 			</column>
-			<column name="cd_rotaveiculo" type="numeric(18,0)" remarks="CÓDIGO DA rotaveiculo">
+			<column name="cd_rotaveiculo" type="numeric(18,0)" remarks="CÓDIGO DA ROTAVEICULO">
 				<constraints nullable="false" foreignKeyName="fk_rotaaluno_rotaveiculo"
 					references="tb_rotaveiculo(id_rotaveiculo)" />
 			</column>
-			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA pessoa">
-				<constraints nullable="false" foreignKeyName="fk_pessoaaluno_pessoa"
+			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA PESSOA">
+				<constraints nullable="false" foreignKeyName="fk_rotaaluno_pessoa"
 					references="tb_pessoa(id_pessoa)" />
 			</column>
-			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA empresa">
-				<constraints nullable="false" foreignKeyName="fk_empresaaluno_empresa"
+			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA EMPRESA">
+				<constraints nullable="false" foreignKeyName="fk_rotaaluno_empresa"
 					references="tb_empresa(id_empresa)" />
 			</column>
 		</createTable>
@@ -1325,7 +1325,7 @@
 					references="tb_veiculo(id_veiculo)" />
 			</column>
 			<column name="cd_empresa" type="numeric(18,0)" remarks="CÓDIGO DA empresa">
-				<constraints nullable="false" foreignKeyName="fk_empresaaluno_empresa"
+				<constraints nullable="false" foreignKeyName="fk_veiculotransportadora_empresa"
 					references="tb_empresa(id_empresa)" />
 			</column>
 			<column name="dt_cadastro" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
@@ -1336,5 +1336,34 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+	</changeSet>
+	<changeSet id="criar_tb_ticketacesso" author="geduca_server">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_ticketacesso" />
+			</not>
+		</preConditions>
+		<createTable tableName="tb_ticketacesso">
+			<column name="id_ticketacesso" type="numeric(18,0)" remarks="ID SEQUENCIAL">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="ticketacesso_pk" />
+			</column>
+			<column name="cd_pessoa" type="numeric(18,0)" remarks="CÓDIGO DA PESSOA">
+				<constraints nullable="false" foreignKeyName="fk_ticket_pessoa"
+					references="tb_pessoa(id_pessoa)" />
+			</column>
+			<column name="tx_ticket" type="varchar(32)" remarks="TICKET DE ACESSO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_cadastro" type="datetime" remarks="DATA DE CRIAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+			<column name="dt_manutencao" type="datetime"
+				remarks="DATA DE ALTERAÇÃO DO CADASTRO">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="gen_ticketacesso"
+			startValue="1" />
 	</changeSet>
 </databaseChangeLog>

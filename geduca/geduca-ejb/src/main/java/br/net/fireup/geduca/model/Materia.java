@@ -18,7 +18,7 @@ public class Materia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_materia")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_materia")
 	@Column(name = "id_materia")
 	private Long id;
 

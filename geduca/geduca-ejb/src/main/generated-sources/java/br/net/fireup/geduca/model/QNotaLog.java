@@ -21,9 +21,13 @@ public class QNotaLog extends EntityPathBase<NotaLog> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<Long> materia = createNumber("materia", Long.class);
+
     public final StringPath nota = createString("nota");
 
     public final NumberPath<java.math.BigDecimal> numeroNota = createNumber("numeroNota", java.math.BigDecimal.class);
+
+    public final NumberPath<Long> pessoa = createNumber("pessoa", Long.class);
 
     public final DateTimePath<java.util.Date> serie = createDateTime("serie", java.util.Date.class);
 

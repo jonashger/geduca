@@ -20,7 +20,7 @@ public class Documento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_documento")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_documento")
 	@Column(name = "id_documento")
 	private Long id;
 

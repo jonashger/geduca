@@ -21,7 +21,7 @@ public class Turma implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_turma")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_turma")
 	@Column(name = "id_turma")
 	private Long id;
 

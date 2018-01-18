@@ -1,32 +1,36 @@
 package br.net.fireup.geduca.dao.impl;
 
-import javax.annotation.PostConstruct;
+import static br.net.fireup.geduca.model.QTicketAcesso.ticketAcesso;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import com.mysema.query.jpa.impl.JPADeleteClause;
+
 import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
-import br.net.fireup.geduca.dto.ValorBooleanoDTO;
-import br.net.fireup.geduca.model.Pessoa;
+import br.net.fireup.geduca.model.TicketAcesso;
 
 @RequestScoped
-public class TicketAcessoDAOImpl extends GenericDAOImpl<Pessoa> implements TicketAcessoDAO {
+public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements TicketAcessoDAO {
 
 	@Inject
 	@Geduca
 	private EntityManager entity;
 
 	@Override
-	@PostConstruct
 	public void inicializar() {
 		setEntityManager(entity);
+
 	}
 
 	@Override
-	public ValorBooleanoDTO removerTodos() {
+	public void removerTodos() {
 
-		return ValorBooleanoDTO.TRUE;
+		JPADeleteClause query = new JPADeleteClause(entity, ticketAcesso);
+		query.execute();
+
 	}
 
 }

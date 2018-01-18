@@ -21,7 +21,7 @@ public class Matricula implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_matricula")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_matricula")
 	@Column(name = "id_matricula")
 	private Long id;
 
