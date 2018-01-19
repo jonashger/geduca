@@ -20,12 +20,12 @@ public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_pessoa")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_pessoa")
 	@Column(name = "id_pessoa")
 	private Long id;
 
 	@Column(name = "tx_nome")
-	private String name; 
+	private String name;
 
 	@Column(name = "tx_email")
 	private String email;

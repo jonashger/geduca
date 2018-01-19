@@ -17,7 +17,7 @@ public class Sexo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen_sexo")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_sexo")
 	@Column(name = "id_sexo")
 	private Long id;
 
