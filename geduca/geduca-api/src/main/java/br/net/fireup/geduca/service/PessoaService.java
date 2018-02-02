@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import br.net.fireup.geduca.dto.LoginDTO;
+import br.net.fireup.geduca.dto.RetornoLoginDTO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
 import br.net.fireup.geduca.model.Pessoa;
 
@@ -23,5 +24,5 @@ public interface PessoaService {
 	@Path("/login")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public ValorBooleanoDTO realizarLogin(LoginDTO Login);
+	public RetornoLoginDTO realizarLogin(LoginDTO Login);
 }

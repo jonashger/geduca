@@ -18,6 +18,9 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import com.mysema.query.jpa.sql.JPASQLQuery;
+import com.mysema.query.sql.Configuration;
+
 import br.net.fireup.geduca.dao.GenericDAO;
 
 /**
@@ -45,6 +48,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		ParameterizedType pt = (ParameterizedType) t;
 		persistedClass = (Class<T>) pt.getActualTypeArguments()[0];
 	}
+
 	public void setPersistClass(Class<T> pc) {
 		this.persistedClass = pc;
 	}
@@ -142,4 +146,8 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		getEntityManager().detach(entity);
 	}
 
+	@Override
+	public JPASQLQuery sqlQuery() {
+		return new JPASQLQuery(entityManager, Configuration.DEFAULT);
+	}
 }

@@ -6,4 +6,7 @@ public interface TicketAcessoDAO extends GenericDAO<TicketAcesso> {
 
 	public abstract void removerTodos();
 
+
+	public abstract TicketAcesso adquirirTicket(String ticket);
+
 }

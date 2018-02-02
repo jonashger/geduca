@@ -7,8 +7,10 @@ import javax.inject.Inject;
 
 import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.PessoaBO;
+import br.net.fireup.geduca.bo.TicketAcessoBO;
 import br.net.fireup.geduca.dao.PessoaDAO;
 import br.net.fireup.geduca.dto.LoginDTO;
+import br.net.fireup.geduca.dto.RetornoLoginDTO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
 import br.net.fireup.geduca.model.Pessoa;
 import br.net.fireup.geduca.util.StringUtil;
@@ -22,6 +24,9 @@ public class PessoaBOImpl implements PessoaBO {
 	@Inject
 	private PessoaDAO pessoaDAO;
 
+	@Inject
+	private TicketAcessoBO ticketAcessoBO;
+
 	@Override
 	public ValorBooleanoDTO registrarPessoa(Pessoa pessoa) {
 		// logger.info("==> Executando o método registrarPessoa");
@@ -30,16 +35,18 @@ public class PessoaBOImpl implements PessoaBO {
 	}
 
 	@Override
-	public ValorBooleanoDTO realizarLogin(LoginDTO loginDTO) {
+	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) {
 		if (StringUtil.isNullOrEmpty(loginDTO.getEmail()) || !StringUtil.isNullOrEmpty(loginDTO.getSenha())) {
-			return ValorBooleanoDTO.FALSE;
 		}
 		Pessoa pessoa = pessoaDAO.validarUsuario(loginDTO.getEmail(), loginDTO.getSenha());
+		RetornoLoginDTO retorno = new RetornoLoginDTO();
 		if (pessoa != null) {
-			// GERAR E SALVAR TICKET
-			return ValorBooleanoDTO.TRUE;
+			retorno.setId(pessoa.getId());
+			retorno.setTicketAcesso(ticketAcessoBO.gerarTicket(pessoa.getId()));
+			retorno.setNome(pessoa.getName());
+
 		}
-		return ValorBooleanoDTO.FALSE;
+		return null;
 	}
 
 }

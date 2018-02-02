@@ -3,6 +3,8 @@ package br.net.fireup.geduca.dao;
 import java.util.List;
 import java.util.Set;
 
+import com.mysema.query.jpa.sql.JPASQLQuery;
+
 public interface GenericDAO<T> {
 
 	public abstract T salvar(T entity);
@@ -28,6 +30,8 @@ public interface GenericDAO<T> {
 	public abstract void detach(Object entity);
 
 	public abstract List<T> salvar(List<T> entity);
+	
+	public abstract JPASQLQuery sqlQuery();
 
 
 }

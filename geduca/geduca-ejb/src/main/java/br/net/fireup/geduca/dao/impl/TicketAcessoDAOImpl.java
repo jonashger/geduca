@@ -33,4 +33,10 @@ public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements
 
 	}
 
+	@Override
+	public TicketAcesso adquirirTicket(String ticket) {
+
+		return sqlQuery().from(ticketAcesso).where(ticketAcesso.ticket.eq(ticket)).singleResult(ticketAcesso);
+	}
+
 }
