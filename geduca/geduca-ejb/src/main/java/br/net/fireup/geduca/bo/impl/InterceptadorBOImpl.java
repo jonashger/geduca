@@ -44,7 +44,7 @@ public class InterceptadorBOImpl implements InterceptadorBO {
 		final List<String> lista = headers.get("ticketAcesso");
 
 		if (ListUtil.isNullOrEmpty(lista)) {
-			System.out.println("ERRO");
+			throw Resource.getServerException(MensagemService.TICKET_ACESSO_INVALIDO);
 		}
 
 		return lista.get(0);

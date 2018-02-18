@@ -11,10 +11,10 @@ public class ListUtil {
 	public static <T> Boolean isNullOrEmpty(List<T> list) {
 
 		if (list != null && (list.size() > IntegerUtil.ZERO)) {
-			return Boolean.TRUE;
+			return Boolean.FALSE;
 		}
 
-		return Boolean.FALSE;
+		return Boolean.TRUE;
 
 	}
 

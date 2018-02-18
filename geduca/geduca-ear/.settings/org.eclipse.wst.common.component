@@ -56,11 +56,5 @@
         <dependent-module archiveName="activation.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/activation/activation/1.1.1/activation-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="shiro-web.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/shiro/shiro-web/1.4/shiro-web-1.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="shiro-core.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/shiro/shiro-core/1.4/shiro-core-1.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
     </wb-module>
 </project-modules>
