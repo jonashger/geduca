@@ -34,7 +34,7 @@
 	</licenses>
 
 	<dependencies>
-
+	
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-cdi</artifactId>
@@ -42,8 +42,7 @@
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<version>1.0.0.Final</version>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -58,6 +57,7 @@
 			<artifactId>cdi-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
@@ -124,7 +124,7 @@
 				<version>${version.ejb.plugin}</version>
 				<configuration>
 					<!-- Tell Maven we are using EJB 3.1 -->
-					<ejbVersion>3.1</ejbVersion>
+					<ejbVersion>3.2</ejbVersion>
 				</configuration>
 			</plugin>
 		</plugins>

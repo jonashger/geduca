@@ -18,6 +18,7 @@ import br.net.fireup.geduca.util.StringUtil;
 @Stateless
 public class PessoaBOImpl implements PessoaBO {
 
+	@Inject
 	@LoggerUtil
 	private Logger logger;
 
@@ -36,6 +37,7 @@ public class PessoaBOImpl implements PessoaBO {
 
 	@Override
 	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) {
+		logger.info("==Executando o método realizarLogin.");
 		if (StringUtil.isNullOrEmpty(loginDTO.getEmail()) || !StringUtil.isNullOrEmpty(loginDTO.getSenha())) {
 		}
 		Pessoa pessoa = pessoaDAO.validarUsuario(loginDTO.getEmail(), loginDTO.getSenha());

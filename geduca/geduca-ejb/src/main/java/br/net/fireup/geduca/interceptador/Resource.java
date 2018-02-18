@@ -17,7 +17,7 @@ public class Resource {
 	}
 
 	private static void logarExcecao(String string) {
-		Logger.getLogger(Resource.class.getName()).fine(string);
+		Logger.getLogger(Resource.class.getName()).severe(string);
 
 	}
 
