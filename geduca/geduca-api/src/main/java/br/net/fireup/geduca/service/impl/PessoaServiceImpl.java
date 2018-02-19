@@ -1,6 +1,5 @@
 package br.net.fireup.geduca.service.impl;
 
-
 import javax.enterprise.inject.Default;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -11,6 +10,7 @@ import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.dto.LoginDTO;
 import br.net.fireup.geduca.dto.RetornoLoginDTO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
+import br.net.fireup.geduca.interceptador.ServerException;
 import br.net.fireup.geduca.model.Pessoa;
 import br.net.fireup.geduca.service.PessoaService;
 
@@ -27,7 +27,7 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public RetornoLoginDTO realizarLogin(LoginDTO login) {
+	public RetornoLoginDTO realizarLogin(LoginDTO login) throws ServerException {
 
 		return pessoaBO.realizarLogin(login);
 	}

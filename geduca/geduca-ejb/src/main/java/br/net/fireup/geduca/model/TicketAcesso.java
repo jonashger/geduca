@@ -59,7 +59,7 @@ public class TicketAcesso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_ticketacesso")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_ticketacesso")
 	@Column(name = "id_ticketacesso")
 	private Long id;
 

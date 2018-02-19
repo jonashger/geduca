@@ -22,7 +22,6 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 
 	@Inject
 	private TicketAcessoDAO ticketAcessoDAO;
-	
 
 	@Override
 	public String gerarTicket(Long codigoUsuario) {

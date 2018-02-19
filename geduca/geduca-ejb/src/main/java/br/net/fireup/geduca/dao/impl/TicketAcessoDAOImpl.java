@@ -2,8 +2,7 @@ package br.net.fireup.geduca.dao.impl;
 
 import static br.net.fireup.geduca.model.QTicketAcesso.ticketAcesso;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 
 import com.mysema.query.jpa.impl.JPADeleteClause;
@@ -12,10 +11,9 @@ import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
 import br.net.fireup.geduca.model.TicketAcesso;
 
-@RequestScoped
+@Stateful
 public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements TicketAcessoDAO {
 
-	@Inject
 	@Geduca
 	private EntityManager entity;
 

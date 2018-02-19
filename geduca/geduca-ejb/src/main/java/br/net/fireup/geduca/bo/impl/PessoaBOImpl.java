@@ -8,10 +8,13 @@ import javax.inject.Inject;
 import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.bo.TicketAcessoBO;
+import br.net.fireup.geduca.constantes.MensagemService;
 import br.net.fireup.geduca.dao.PessoaDAO;
 import br.net.fireup.geduca.dto.LoginDTO;
 import br.net.fireup.geduca.dto.RetornoLoginDTO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
+import br.net.fireup.geduca.interceptador.Resource;
+import br.net.fireup.geduca.interceptador.ServerException;
 import br.net.fireup.geduca.model.Pessoa;
 import br.net.fireup.geduca.util.StringUtil;
 
@@ -36,11 +39,18 @@ public class PessoaBOImpl implements PessoaBO {
 	}
 
 	@Override
-	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) {
+	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) throws ServerException {
 		logger.info("==Executando o método realizarLogin.");
-		if (StringUtil.isNullOrEmpty(loginDTO.getEmail()) || !StringUtil.isNullOrEmpty(loginDTO.getSenha())) {
+		if (StringUtil.isNullOrEmpty(loginDTO.getEmail()) || StringUtil.isNullOrEmpty(loginDTO.getSenha())) {
+			throw Resource.getServerException(MensagemService.CAMPOS_NAO_INFORMADOS_LOGIN_SENHA);
+
 		}
 		Pessoa pessoa = pessoaDAO.validarUsuario(loginDTO.getEmail(), loginDTO.getSenha());
+
+		if (pessoa == null) {
+			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
+		}
+
 		RetornoLoginDTO retorno = new RetornoLoginDTO();
 		if (pessoa != null) {
 			retorno.setId(pessoa.getId());

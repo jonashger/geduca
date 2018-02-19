@@ -13,14 +13,14 @@ public class ServerException extends Exception {
 
 	public ServerException(String codigo, String mensagem) {
 		super(mensagem);
-		this.codigo = "";
+		this.codigo = codigo;
 		this.mensagem = mensagem;
 
 	}
 
 	public ServerException(String codigo, String mensagem, Throwable throwable) {
 		super(mensagem, throwable);
-		this.codigo = "";
+		this.codigo = codigo;
 		this.mensagem = mensagem;
 
 	}

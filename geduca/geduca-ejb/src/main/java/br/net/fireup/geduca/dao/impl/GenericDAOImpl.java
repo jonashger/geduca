@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
@@ -31,13 +32,13 @@ import br.net.fireup.geduca.dao.GenericDAO;
  *            Classe Persistente
  * @version v1.23
  */
-
 public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	@Resource
+	@Produces
 	private SessionContext sessionContext;
 
 	private Class<T> persistedClass;
