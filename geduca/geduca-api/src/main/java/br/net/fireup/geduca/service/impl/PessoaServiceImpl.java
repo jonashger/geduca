@@ -2,9 +2,7 @@ package br.net.fireup.geduca.service.impl;
 
 import javax.enterprise.inject.Default;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.dto.LoginDTO;

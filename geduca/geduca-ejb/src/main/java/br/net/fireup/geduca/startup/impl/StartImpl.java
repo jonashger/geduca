@@ -11,6 +11,7 @@ import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.startup.Start;
 
 @Startup
+@Singleton
 public class StartImpl implements Start {
 
 	@Inject
@@ -18,9 +19,7 @@ public class StartImpl implements Start {
 	private Logger logger;
 
 	@PostConstruct
-	@Singleton
 	public void init() {
-
 		logger.info("==> Executando o método StartImpl");
 	}
 }

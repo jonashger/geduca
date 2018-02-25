@@ -9,6 +9,7 @@ import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.bo.TicketAcessoBO;
 import br.net.fireup.geduca.constantes.MensagemService;
+import br.net.fireup.geduca.dao.EmpresaUsuarioDAO;
 import br.net.fireup.geduca.dao.PessoaDAO;
 import br.net.fireup.geduca.dto.LoginDTO;
 import br.net.fireup.geduca.dto.RetornoLoginDTO;
@@ -31,6 +32,9 @@ public class PessoaBOImpl implements PessoaBO {
 	@Inject
 	private TicketAcessoBO ticketAcessoBO;
 
+	@Inject
+	private EmpresaUsuarioDAO empresaUsuarioDAO;
+
 	@Override
 	public ValorBooleanoDTO registrarPessoa(Pessoa pessoa) {
 		// logger.info("==> Executando o método registrarPessoa");
@@ -41,12 +45,16 @@ public class PessoaBOImpl implements PessoaBO {
 	@Override
 	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) throws ServerException {
 		logger.info("==Executando o método realizarLogin.");
+
 		if (StringUtil.isNullOrEmpty(loginDTO.getEmail()) || StringUtil.isNullOrEmpty(loginDTO.getSenha())) {
 			throw Resource.getServerException(MensagemService.CAMPOS_NAO_INFORMADOS_LOGIN_SENHA);
 
 		}
+		// Adquire o modelo do usuario caso encontre o email e a senha na base
 		Pessoa pessoa = pessoaDAO.validarUsuario(loginDTO.getEmail(), loginDTO.getSenha());
 
+		// Caso não encontro, lançara uma execao e o usuario nao ira receber o ticket de
+		// acesso
 		if (pessoa == null) {
 			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
 		}
@@ -56,9 +64,9 @@ public class PessoaBOImpl implements PessoaBO {
 			retorno.setId(pessoa.getId());
 			retorno.setTicketAcesso(ticketAcessoBO.gerarTicket(pessoa.getId()));
 			retorno.setNome(pessoa.getName());
-
+			retorno.setEmpresa(empresaUsuarioDAO.adquirirEmpresaUsuario(pessoa.getId()));
 		}
-		return null;
+		return retorno;
 	}
 
 }

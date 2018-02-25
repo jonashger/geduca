@@ -16,8 +16,8 @@ public class PessoaDAOImpl extends GenericDAOImpl<Pessoa> implements PessoaDAO {
 
 	private static final long serialVersionUID = 1L;
 
-	@Geduca
 	@Inject
+	@Geduca
 	private EntityManager entity;
 
 	@Override

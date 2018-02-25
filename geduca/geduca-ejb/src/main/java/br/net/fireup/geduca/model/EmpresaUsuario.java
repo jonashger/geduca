@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import br.net.fireup.geduca.model.pk.EmpresaUsuarioPK;
 
 @Entity
-@Table(name = "tb_empresa")
+@Table(name = "tb_empresausuario")
 public class EmpresaUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 

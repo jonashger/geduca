@@ -3,6 +3,8 @@ package br.net.fireup.geduca.dao.impl;
 import static br.net.fireup.geduca.model.QTicketAcesso.ticketAcesso;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -12,6 +14,7 @@ import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
 import br.net.fireup.geduca.model.TicketAcesso;
 
+@TransactionManagement(TransactionManagementType.BEAN)
 public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements TicketAcessoDAO {
 
 	private static final long serialVersionUID = 1L;

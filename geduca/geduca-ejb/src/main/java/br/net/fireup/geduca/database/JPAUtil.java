@@ -8,8 +8,9 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
-
 import br.net.fireup.geduca.annotation.Geduca;
+
+
 
 public class JPAUtil implements Serializable {
 
@@ -20,8 +21,8 @@ public class JPAUtil implements Serializable {
 	@PersistenceContext(unitName = geduca)
 	private transient EntityManager entityGeduca;
 
-	@Produces
 	@Geduca
+	@Produces
 	public EntityManager createEntityManager() {
 		return entityGeduca;
 	}
