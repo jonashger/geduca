@@ -25,9 +25,11 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 
 	@Override
 	public String gerarTicket(Long codigoUsuario) {
+		logger.info("==> Executando o método gerarTicket.");
 
 		Date date = new Date();
 		String data = String.valueOf(date.getTime()) + codigoUsuario.toString();
+
 		MessageDigest m = null;
 		try {
 			m = MessageDigest.getInstance("MD5");
@@ -41,18 +43,18 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 		TicketAcesso ticket = new TicketAcesso();
 		ticket.setCodigoPessoa(codigoUsuario);
 		ticket.setTicket(ticketAcesso);
-		
+
 		ticketAcessoDAO.salvar(ticket);
-		
+
 		return ticketAcesso;
 	}
 
 	@Override
 	public void validarTicketAcesso(String ticket) {
-		
+
 		TicketAcesso ticketAcesso = ticketAcessoDAO.adquirirTicket(ticket);
 		if (ticketAcesso == null) {
-			
+
 		}
 	}
 

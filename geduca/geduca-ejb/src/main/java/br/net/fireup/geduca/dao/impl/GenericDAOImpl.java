@@ -1,5 +1,6 @@
 package br.net.fireup.geduca.dao.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -32,7 +33,12 @@ import br.net.fireup.geduca.dao.GenericDAO;
  *            Classe Persistente
  * @version v1.23
  */
-public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
+public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
 	protected EntityManager entityManager;

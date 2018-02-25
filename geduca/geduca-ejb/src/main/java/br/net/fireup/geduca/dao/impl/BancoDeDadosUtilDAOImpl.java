@@ -1,29 +1,24 @@
 package br.net.fireup.geduca.dao.impl;
 
-import static br.net.fireup.geduca.model.QPessoa.pessoa;
-
 import java.util.Date;
 
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.mysema.query.jpa.sql.JPASQLQuery;
-import com.mysema.query.sql.Configuration;
-
 import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.BancoDeDadosUtilDAO;
-import br.net.fireup.geduca.dao.PessoaDAO;
-import br.net.fireup.geduca.model.Pessoa;
 import br.net.fireup.geduca.model.TicketAcesso;
 
-@RequestScoped
 public class BancoDeDadosUtilDAOImpl extends GenericDAOImpl<TicketAcesso> implements BancoDeDadosUtilDAO {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	@Geduca
 	private EntityManager entity;
 
+	@PostConstruct
 	@Override
 	public void inicializar() {
 		setEntityManager(entity);

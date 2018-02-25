@@ -2,6 +2,7 @@ package br.net.fireup.geduca.bo.impl;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MultivaluedMap;
 
+import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.InterceptadorBO;
 import br.net.fireup.geduca.bo.TicketAcessoBO;
 import br.net.fireup.geduca.constantes.MensagemService;
@@ -23,8 +25,13 @@ public class InterceptadorBOImpl implements InterceptadorBO {
 	@Inject
 	private TicketAcessoBO ticketAcessoBO;
 
+	@Inject
+	@LoggerUtil
+	private Logger logger;
+
 	@Override
 	public Boolean requerAutentificacao(Method method) throws ServerException {
+		logger.info("==> Executando o método requerAutentificacao");
 
 		if (!method.isAnnotationPresent(PermitAll.class)) {
 
