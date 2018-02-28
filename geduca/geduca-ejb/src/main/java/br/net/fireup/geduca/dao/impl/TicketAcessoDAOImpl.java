@@ -2,7 +2,9 @@ package br.net.fireup.geduca.dao.impl;
 
 import static br.net.fireup.geduca.model.QTicketAcesso.ticketAcesso;
 
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -12,14 +14,17 @@ import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
 import br.net.fireup.geduca.model.TicketAcesso;
 
-@RequestScoped
+@TransactionManagement(TransactionManagementType.BEAN)
 public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements TicketAcessoDAO {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	@Geduca
 	private EntityManager entity;
 
 	@Override
+	@PostConstruct
 	public void inicializar() {
 		setEntityManager(entity);
 
@@ -31,6 +36,12 @@ public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements
 		JPADeleteClause query = new JPADeleteClause(entity, ticketAcesso);
 		query.execute();
 
+	}
+
+	@Override
+	public TicketAcesso adquirirTicket(String ticket) {
+
+		return sqlQuery().from(ticketAcesso).where(ticketAcesso.ticket.eq(ticket)).singleResult(ticketAcesso);
 	}
 
 }

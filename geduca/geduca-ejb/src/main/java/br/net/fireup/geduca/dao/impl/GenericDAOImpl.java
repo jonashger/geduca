@@ -1,24 +1,24 @@
 package br.net.fireup.geduca.dao.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
+import org.hibernate.Session;
+
+import com.mysema.query.jpa.sql.JPASQLQuery;
+import com.mysema.query.sql.Configuration;
+
+import br.net.fireup.geduca.constantes.MensagemService;
 import br.net.fireup.geduca.dao.GenericDAO;
+import br.net.fireup.geduca.interceptador.Resource;
+import br.net.fireup.geduca.interceptador.ServerException;
 
 /**
  * Classe abstrata responsável por fornecer encapsulamento no acesso aos dados.
@@ -28,14 +28,16 @@ import br.net.fireup.geduca.dao.GenericDAO;
  *            Classe Persistente
  * @version v1.23
  */
+public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 
-public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	protected EntityManager entityManager;
+	protected transient EntityManager entityManager;
 
-	@Resource
-	private SessionContext sessionContext;
+	private Session session;
 
 	private Class<T> persistedClass;
 
@@ -45,6 +47,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		ParameterizedType pt = (ParameterizedType) t;
 		persistedClass = (Class<T>) pt.getActualTypeArguments()[0];
 	}
+
 	public void setPersistClass(Class<T> pc) {
 		this.persistedClass = pc;
 	}
@@ -63,18 +66,14 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	}
 
 	@Override
-	public T salvar(T entity) {
-		UserTransaction t = sessionContext.getUserTransaction();
+	public T salvar(T entity) throws ServerException {
+		T t = null;
 		try {
-			t.begin();
-			getEntityManager().merge(entity);
-			getEntityManager().flush();
-			t.commit();
-		} catch (NotSupportedException | SystemException | IllegalStateException | SecurityException
-				| HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
-			e.printStackTrace();
+			t = getEntityManager().merge(entity);
+		} catch (Exception e) {
+			throw Resource.getServerException(MensagemService.FALHA_AO_GRAVAR_DADOS);
 		}
-		return entity;
+		return t;
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	}
 
 	@Override
-	public List<T> salvar(List<T> entity) {
+	public List<T> salvar(List<T> entity) throws ServerException {
 		List<T> retorno = new ArrayList<T>();
 		for (T t : entity) {
 			this.salvar(t);
@@ -142,4 +141,8 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		getEntityManager().detach(entity);
 	}
 
+	@Override
+	public JPASQLQuery sqlQuery() {
+		return new JPASQLQuery(entityManager, Configuration.DEFAULT);
+	}
 }

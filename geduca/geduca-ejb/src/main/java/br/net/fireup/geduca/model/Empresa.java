@@ -40,7 +40,7 @@ public class Empresa implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
 
-	@Column(name = "dt_alteracao")
+	@Column(name = "dt_manutencao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAlteracao;
 

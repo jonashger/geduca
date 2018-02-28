@@ -1,5 +1,6 @@
 package br.net.fireup.geduca.service;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -7,7 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import br.net.fireup.geduca.dto.LoginDTO;
+import br.net.fireup.geduca.dto.RetornoLoginDTO;
 import br.net.fireup.geduca.dto.ValorBooleanoDTO;
+import br.net.fireup.geduca.interceptador.ServerException;
 import br.net.fireup.geduca.model.Pessoa;
 
 @Path("/pessoaService")
@@ -23,5 +26,6 @@ public interface PessoaService {
 	@Path("/login")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public ValorBooleanoDTO realizarLogin(LoginDTO Login);
+	@PermitAll
+	public RetornoLoginDTO realizarLogin(LoginDTO Login) throws ServerException;
 }

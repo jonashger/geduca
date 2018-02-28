@@ -64,7 +64,7 @@
 			<property name="hibernate.connection.autoReconnect" value="true" />
 			<property name="hibernate.connection.autoReconnectForPools"
 				value="true" />
-			<property name="hibernate.connection.autocommit" value="true" />
+			<property name="hibernate.connection.autocommit" value="false" />
 
 			<property name="hibernate.use_sql_comments" value="true" />
 			<property name="hibernate.show_sql" value="true" />
