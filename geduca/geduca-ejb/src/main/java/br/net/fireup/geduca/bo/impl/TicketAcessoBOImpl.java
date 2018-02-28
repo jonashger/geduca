@@ -9,7 +9,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import br.net.fireup.geduca.bo.TicketAcessoBO;
+import br.net.fireup.geduca.constantes.MensagemService;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
+import br.net.fireup.geduca.interceptador.Resource;
 import br.net.fireup.geduca.interceptador.ServerException;
 import br.net.fireup.geduca.model.TicketAcesso;
 
@@ -46,11 +48,11 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 	}
 
 	@Override
-	public void validarTicketAcesso(String ticket) {
+	public void validarTicketAcesso(String ticket) throws ServerException {
 
 		TicketAcesso ticketAcesso = ticketAcessoDAO.adquirirTicket(ticket);
 		if (ticketAcesso == null) {
-
+			throw Resource.getServerException(MensagemService.TICKET_ACESSO_INVALIDO);
 		}
 	}
 

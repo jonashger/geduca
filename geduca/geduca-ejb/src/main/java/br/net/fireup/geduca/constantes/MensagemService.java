@@ -9,5 +9,7 @@ public class MensagemService {
 	public static final String USUARIO_NAO_CADASTRADO = "USUARIO_NAO_CADASTRADO";
 	public static final String CAMPOS_NAO_INFORMADOS_LOGIN_SENHA = "CAMPOS_NAO_INFORMADOS_LOGIN_SENHA";
 	public static final String FALHA_AO_GRAVAR_DADOS = "FALHA_AO_GRAVAR_DADOS";
+	public static final String CAMPOS_NAO_INFORMADOS = "CAMPOS_NAO_INFORMADOS";
+	public static final String CNPJ_INFORMADO_INVALIDO = "CNPJ_INFORMADO_INVALIDO";
 
 }

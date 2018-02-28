@@ -37,7 +37,7 @@ public class Interceptador implements ContainerRequestFilter {
 
 		try {
 
-			if (!interceptadorBO.requerAutentificacao(method)) {
+			if (interceptadorBO.requerAutentificacao(method)) {
 				String ticketAcesso = interceptadorBO.obterTicketAcessoHeader(request);
 				interceptadorBO.validarTicketAcesso(ticketAcesso);
 			}
