@@ -113,34 +113,63 @@
 
 		</dependencies>
 	</dependencyManagement>
+	
+	<profiles>
+		<!-- clean generate-sources install sonar:sonar deploy | ativo por padrão -->
+		<profile>
+			<id>basic</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<finalName>${project.artifactId}-${project.version}</finalName>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${version.compiler.plugin}</version>
+							<configuration>
+								<source>${maven.compiler.source}</source>
+								<target>${maven.compiler.target}</target>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.wildfly.plugins</groupId>
+							<artifactId>wildfly-maven-plugin</artifactId>
+							<version>${version.wildfly.maven.plugin}</version>
+							<inherited>true</inherited>
+							<configuration>
+								<skip>true</skip>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<!-- Profile de publicação, necessário -P publish | inativo por padrão -->
+		<profile>
+			<id>publish</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<finalName>${project.artifactId}-${project.version}</finalName>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.wildfly.plugins</groupId>
+							<artifactId>wildfly-maven-plugin</artifactId>
+							<version>${version.wildfly.maven.plugin}</version>
+							<inherited>true</inherited>
+							<configuration>
+								<skip>true</skip>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
-				<!-- Due to Maven's lack of intelligence with EARs we need to configure 
-					the wildfly maven plugin to skip deployment for all modules. We then enable 
-					it specifically in the ear module. -->
-				<plugin>
-					<groupId>org.wildfly.plugins</groupId>
-					<artifactId>wildfly-maven-plugin</artifactId>
-					<version>${version.wildfly.maven.plugin}</version>
-					<inherited>true</inherited>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.7.0</version> <!-- or whatever current version -->
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 </project>
