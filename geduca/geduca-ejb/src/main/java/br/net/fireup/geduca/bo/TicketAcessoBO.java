@@ -6,6 +6,6 @@ public interface TicketAcessoBO {
 
 	public abstract String gerarTicket(Long codigoUsuario) throws ServerException;
 
-	public abstract void validarTicketAcesso(String ticketAcesso);
+	public abstract void validarTicketAcesso(String ticketAcesso) throws ServerException;
 
 }

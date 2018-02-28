@@ -1,5 +1,6 @@
 package br.net.fireup.geduca.service;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,5 +26,6 @@ public interface PessoaService {
 	@Path("/login")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
+	@PermitAll
 	public RetornoLoginDTO realizarLogin(LoginDTO Login) throws ServerException;
 }
