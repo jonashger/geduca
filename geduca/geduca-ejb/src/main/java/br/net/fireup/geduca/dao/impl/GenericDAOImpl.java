@@ -12,8 +12,10 @@ import javax.persistence.EntityTransaction;
 
 import org.hibernate.Session;
 
+import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.sql.JPASQLQuery;
 import com.mysema.query.sql.Configuration;
+import com.mysema.query.types.EntityPath;
 
 import br.net.fireup.geduca.constantes.MensagemService;
 import br.net.fireup.geduca.dao.GenericDAO;
@@ -144,5 +146,10 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	@Override
 	public JPASQLQuery sqlQuery() {
 		return new JPASQLQuery(entityManager, Configuration.DEFAULT);
+	}
+
+	@Override
+	public JPADeleteClause deleteClause(EntityPath<?> t) {
+		return new JPADeleteClause(entityManager, t);
 	}
 }

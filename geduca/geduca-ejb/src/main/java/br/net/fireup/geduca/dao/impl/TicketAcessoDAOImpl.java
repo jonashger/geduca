@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.mysema.query.jpa.impl.JPADeleteClause;
+import com.mysema.query.jpa.sql.JPASQLQuery;
 
 import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
@@ -33,15 +34,15 @@ public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements
 	@Override
 	public void removerTodos() {
 
-		JPADeleteClause query = new JPADeleteClause(entity, ticketAcesso);
+		JPADeleteClause query = deleteClause(ticketAcesso);
 		query.execute();
 
 	}
 
 	@Override
 	public TicketAcesso adquirirTicket(String ticket) {
-
-		return sqlQuery().from(ticketAcesso).where(ticketAcesso.ticket.eq(ticket)).singleResult(ticketAcesso);
+		JPASQLQuery query = sqlQuery().from(ticketAcesso).where(ticketAcesso.ticket.eq(ticket));
+		return query.singleResult(ticketAcesso);
 	}
 
 }

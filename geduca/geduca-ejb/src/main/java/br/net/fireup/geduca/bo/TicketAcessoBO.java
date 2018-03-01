@@ -8,4 +8,6 @@ public interface TicketAcessoBO {
 
 	public abstract void validarTicketAcesso(String ticketAcesso) throws ServerException;
 
+	public abstract void limparTicketsAcesso() throws ServerException;
+
 }

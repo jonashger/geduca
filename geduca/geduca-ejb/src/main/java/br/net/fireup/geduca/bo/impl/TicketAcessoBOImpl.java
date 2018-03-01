@@ -56,4 +56,11 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 		}
 	}
 
+	@Override
+	public void limparTicketsAcesso() throws ServerException {
+
+		ticketAcessoDAO.removerTodos();
+
+	}
+
 }
