@@ -3,7 +3,9 @@ package br.net.fireup.geduca.dao;
 import java.util.List;
 import java.util.Set;
 
+import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.sql.JPASQLQuery;
+import com.mysema.query.types.EntityPath;
 
 import br.net.fireup.geduca.interceptador.ServerException;
 
@@ -32,5 +34,7 @@ public interface GenericDAO<T> {
 	public abstract List<T> salvar(List<T> entity) throws ServerException;
 
 	public abstract JPASQLQuery sqlQuery();
+
+	public abstract JPADeleteClause deleteClause(EntityPath<?> t);
 
 }

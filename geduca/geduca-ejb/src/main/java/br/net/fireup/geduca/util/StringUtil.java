@@ -13,4 +13,11 @@ public class StringUtil {
 
 	}
 
+	public static String removerNaoNumeros(String cnpj) {
+		if (!isNullOrEmpty(cnpj)) {
+			return cnpj.replaceAll("[^0-9]", "");
+		}
+		return "";
+	}
+
 }
