@@ -50,6 +50,10 @@ public class EmpresaBOImpl implements EmpresaBO {
 			throw Resource.getServerException(MensagemService.CNPJ_INFORMADO_INVALIDO);
 		}
 
+		if (!enderecoEmpresaDAO.validarEndereco(empresaDTO)) {
+			throw Resource.getServerException(MensagemService.CAMPOS_NAO_INFORMADOS);
+		}
+
 		Empresa empresa = empresaDAO.buscarPorCnpj(StringUtil.removerNaoNumeros(empresaDTO.getCnpj()));
 
 		if (empresa == null) {
@@ -69,6 +73,7 @@ public class EmpresaBOImpl implements EmpresaBO {
 			endereco = new EnderecoEmpresa();
 			endereco.setDataCriacao(new Date());
 		}
+
 		endereco.setCep(empresaDTO.getCep());
 		endereco.setCodigoBairro(empresaDTO.getCodigoBairro());
 		endereco.setCodigoCidade(empresaDTO.getCodigoCidade());

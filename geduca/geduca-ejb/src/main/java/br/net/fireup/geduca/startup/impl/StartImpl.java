@@ -24,7 +24,7 @@ public class StartImpl implements Start {
 	private TicketAcessoBO ticketAcessoBO;
 
 	@PostConstruct
-	public void startup() throws ServerException {
+	public void startup() {
 
 		logger.info("*********** INICIANDO O SISTEMA ***********");
 		logger.info("******** LIMPANDO TIKETS DE ACESSO ********");
@@ -34,8 +34,13 @@ public class StartImpl implements Start {
 		logger.info("******* SISTEMA INICIADO COM SUCESSO ******");
 	}
 
-	private void limparTicketsAcesso() throws ServerException {
-		ticketAcessoBO.limparTicketsAcesso();
+	private void limparTicketsAcesso() {
+		try {
+			ticketAcessoBO.limparTicketsAcesso();
+
+		} catch (ServerException e) {
+			logger.severe("Não foi possivel excluir os tickets de Acesso");
+		}
 
 	}
 }
