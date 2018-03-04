@@ -3,22 +3,30 @@ package br.net.fireup.geduca.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.util.AnnotationLiteral;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import org.hibernate.Session;
 
+import com.mysema.query.jpa.JPASubQuery;
+import com.mysema.query.jpa.impl.JPADeleteClause;
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.jpa.impl.JPAUpdateClause;
 import com.mysema.query.jpa.sql.JPASQLQuery;
-import com.mysema.query.sql.Configuration;
+import com.mysema.query.sql.PostgresTemplates;
+import com.mysema.query.sql.SQLSubQuery;
+import com.mysema.query.types.path.PathBuilder;
 
 import br.net.fireup.geduca.constantes.MensagemService;
 import br.net.fireup.geduca.dao.GenericDAO;
 import br.net.fireup.geduca.interceptador.Resource;
 import br.net.fireup.geduca.interceptador.ServerException;
+import br.net.fireup.geduca.util.StringUtil;
 
 /**
  * Classe abstrata responsável por fornecer encapsulamento no acesso aos dados.
@@ -33,6 +41,9 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	/**
 	 * 
 	 */
+
+	protected static final String ID = "id";
+
 	private static final long serialVersionUID = 1L;
 
 	protected transient EntityManager entityManager;
@@ -40,6 +51,8 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	private Session session;
 
 	private Class<T> persistedClass;
+
+	private PathBuilder<T> pathBuilder;
 
 	@SuppressWarnings("unchecked")
 	public GenericDAOImpl() {
@@ -77,37 +90,6 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	}
 
 	@Override
-	public T atualizar(T entity) {
-		EntityTransaction t = getEntityManager().getTransaction();
-		t.begin();
-		getEntityManager().merge(entity);
-		getEntityManager().flush();
-		t.commit();
-		return entity;
-	}
-
-	@Override
-	public void remover(T entity) {
-		EntityTransaction tx = getEntityManager().getTransaction();
-		tx.begin();
-		T mergedEntity = getEntityManager().merge(entity);
-		getEntityManager().remove(mergedEntity);
-		getEntityManager().flush();
-		tx.commit();
-	}
-
-	@Override
-	public T buscarPorID(Long l) {
-		return getEntityManager().find(persistedClass, l);
-	}
-
-	@Override
-	public Set<T> salvar(Set<T> entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<T> salvar(List<T> entity) throws ServerException {
 		List<T> retorno = new ArrayList<T>();
 		for (T t : entity) {
@@ -119,30 +101,153 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	}
 
 	@Override
-	public Set<T> atualizar(Set<T> entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean remover(Set<T> list) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<T> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void detach(Object entity) {
 		getEntityManager().detach(entity);
 	}
 
 	@Override
 	public JPASQLQuery sqlQuery() {
-		return new JPASQLQuery(entityManager, Configuration.DEFAULT);
+		return new JPASQLQuery(this.getEntityManager(), PostgresTemplates.DEFAULT);
 	}
+
+	@Override
+	public JPASQLQuery sqlQuery(Class<? extends AnnotationLiteral<?>> annotationLiteral) {
+
+		try {
+			return new JPASQLQuery(CDI.current().select(EntityManager.class, annotationLiteral.newInstance()).get(),
+					PostgresTemplates.DEFAULT);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public JPASQLQuery sqlFrom() {
+		return sqlQuery().from(this.getPathBuilder());
+	}
+
+	@Override
+	public JPAQuery query() {
+		return new JPAQuery(this.getEntityManager());
+	}
+
+	@Override
+	public JPAQuery from() {
+		return query().from(this.getPathBuilder());
+	}
+
+	@Override
+	public void excluirTodos() {
+
+		this.deleteClause().execute();
+	}
+
+	@Override
+	public T excluir(T entity) {
+		T t = entity;
+		if (!getEntityManager().contains(entity)) {
+			t = getEntityManager().merge(entity);
+		}
+		getEntityManager().remove(t);
+		getEntityManager().flush();
+
+		return t;
+	}
+
+	@Override
+	public SQLSubQuery sqlSubQuery() {
+		return new SQLSubQuery();
+	}
+
+	@Override
+	public JPASubQuery subQuery() {
+		return new JPASubQuery();
+	}
+
+	@Override
+	public JPADeleteClause deleteClause() {
+		return new JPADeleteClause(this.getEntityManager(), this.getPathBuilder());
+	}
+
+	@Override
+	public JPAUpdateClause updateClause() {
+		return new JPAUpdateClause(this.getEntityManager(), this.getPathBuilder());
+	}
+
+	@Override
+	public List<T> excluir(List<T> entities) {
+		List<T> retorno = new ArrayList<T>();
+		for (T t : entities) {
+			retorno.add(this.excluir(t));
+		}
+		return retorno;
+	}
+
+	@Override
+	public String getEntityPathName() {
+		return StringUtil.primeiraMinuscula(getPersistentClass().getSimpleName());
+	}
+
+
+    @Override
+    public Class<T> getPersistentClass() {
+        return persistedClass;
+    }
+	
+	@Override
+	public List<T> buscarTodos() {
+		return from().list(this.getPathBuilder());
+
+	}
+
+	@Override
+	public Session getSession() {
+		if (session != null) {
+			return session;
+		}
+		return getEntityManager().unwrap(Session.class);
+	}
+
+	@Override
+	public Connection getConnection() {
+		return getEntityManager().unwrap(Connection.class);
+	}
+
+	@Override
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	@Override
+	public Integer executeUpdate(String query) {
+		return getEntityManager().createNativeQuery(query).executeUpdate();
+	}
+
+	@Override
+	public T excluirPorId(Long id) {
+		T t = from().where(this.getPathBuilder().get(ID).eq(id)).uniqueResult(this.getPathBuilder());
+
+		if (deleteClause().where(this.getPathBuilder().get(ID).eq(id)).execute() > 0) {
+			return t;
+		} else {
+			t = null;
+		}
+
+		return t;
+
+	}
+
+	@Override
+	public T buscarPorId(Long id) {
+		return from().where(this.getPathBuilder().get(ID).eq(id)).uniqueResult(this.getPathBuilder());
+	}
+
+	public PathBuilder<T> getPathBuilder() {
+		return pathBuilder;
+	}
+
+	public void setPathBuilder(PathBuilder<T> pathBuilder) {
+		this.pathBuilder = pathBuilder;
+	}
+
 }
