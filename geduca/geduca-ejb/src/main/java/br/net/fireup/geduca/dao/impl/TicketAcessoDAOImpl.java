@@ -15,7 +15,6 @@ import br.net.fireup.geduca.annotation.Geduca;
 import br.net.fireup.geduca.dao.TicketAcessoDAO;
 import br.net.fireup.geduca.model.TicketAcesso;
 
-@TransactionManagement(TransactionManagementType.BEAN)
 public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements TicketAcessoDAO {
 
 	private static final long serialVersionUID = 1L;
@@ -34,7 +33,8 @@ public class TicketAcessoDAOImpl extends GenericDAOImpl<TicketAcesso> implements
 	@Override
 	public void removerTodos() {
 
-		JPADeleteClause query = deleteClause(ticketAcesso);
+		JPADeleteClause query = deleteClause();
+		
 		query.execute();
 
 	}
