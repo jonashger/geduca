@@ -70,6 +70,15 @@ public class StringUtil {
 		StringBuilder sb = new StringBuilder();
 		return sb.append(valor);
 	}
+	
+	
+	public static String removerNaoNumeros(String cnpj) {
+		if (!isNullOrEmpty(cnpj)) {
+			return cnpj.replaceAll("[^0-9]", "");
+		}
+		return "";
+	}
+	
 
 	/**
 	 * Remove espaços em brancos de Strings

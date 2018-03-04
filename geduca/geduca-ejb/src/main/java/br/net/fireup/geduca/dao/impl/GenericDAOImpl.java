@@ -163,7 +163,7 @@ public abstract class GenericDAOImpl<T> implements Serializable, GenericDAO<T> {
 	public JPASubQuery subQuery() {
 		return new JPASubQuery();
 	}
-
+ 
 	@Override
 	public JPADeleteClause deleteClause() {
 		return new JPADeleteClause(this.getEntityManager(), this.getPathBuilder());

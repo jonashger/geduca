@@ -2,7 +2,7 @@ package br.net.fireup.geduca.dao;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
+import java.util.Set; 
 
 import javax.enterprise.util.AnnotationLiteral;
 import javax.persistence.EntityManager;

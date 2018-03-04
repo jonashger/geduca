@@ -36,10 +36,14 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 		}
 
 		String ticketAcesso = new BigInteger(1, m.digest()).toString(16);
-		TicketAcesso ticket = new TicketAcesso();
+		TicketAcesso ticket = ticketAcessoDAO.adquirirTicketPorUsuario(codigoUsuario);
+
+		if (ticket == null) {
+			ticket = new TicketAcesso();
+			ticket.setDataCadastro(new Date());
+		}
 		ticket.setCodigoPessoa(codigoUsuario);
 		ticket.setTicket(ticketAcesso);
-		ticket.setDataCadastro(new Date());
 		ticket.setDataManutencao(new Date());
 
 		ticketAcessoDAO.salvar(ticket);
@@ -54,6 +58,13 @@ public class TicketAcessoBOImpl implements TicketAcessoBO {
 		if (ticketAcesso == null) {
 			throw Resource.getServerException(MensagemService.TICKET_ACESSO_INVALIDO);
 		}
+	}
+
+	@Override
+	public void limparTicketsAcesso() throws ServerException {
+
+		ticketAcessoDAO.removerTodos();
+
 	}
 
 }
