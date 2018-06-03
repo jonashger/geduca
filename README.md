@@ -1,4 +1,4 @@
-###### DESCONTINUADO ######
+# DESCONTINUADO ######
 
 # README #
 
