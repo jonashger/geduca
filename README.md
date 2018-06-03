@@ -1,6 +1,8 @@
+###### DESCONTINUADO ######
+
 # README #
 
-Este é um projeto Restful com maven, usando EJB, JPA, JSF.  
+Este é um projeto Restful 
 
 ### What is this repository for? ###
 
