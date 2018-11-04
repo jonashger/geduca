@@ -8,4 +8,6 @@ public interface EmpresaBO {
 
 	public abstract ValorBooleanoDTO salvar(Empresa pessoa) throws ServerException;
 
+	public abstract String teste();
+
 }

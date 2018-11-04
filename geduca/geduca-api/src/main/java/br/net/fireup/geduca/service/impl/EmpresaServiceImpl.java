@@ -22,4 +22,9 @@ public class EmpresaServiceImpl implements EmpresaService {
 		return empresaBO.salvar(pessoa);
 	}
 
+	@Override
+	public String teste() throws ServerException {
+		return empresaBO.teste();
+	}
+
 }

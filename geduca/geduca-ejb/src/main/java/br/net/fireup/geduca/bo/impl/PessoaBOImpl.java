@@ -9,7 +9,6 @@ import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.PessoaBO;
 import br.net.fireup.geduca.bo.TicketAcessoBO;
 import br.net.fireup.geduca.constantes.MensagemService;
-import br.net.fireup.geduca.dao.EmpresaUsuarioDAO;
 import br.net.fireup.geduca.dao.PessoaDAO;
 import br.net.fireup.geduca.dto.LoginDTO;
 import br.net.fireup.geduca.dto.RetornoLoginDTO;
@@ -31,9 +30,6 @@ public class PessoaBOImpl implements PessoaBO {
 
 	@Inject
 	private TicketAcessoBO ticketAcessoBO;
-
-	@Inject
-	private EmpresaUsuarioDAO empresaUsuarioDAO;
 
 	@Override
 	public ValorBooleanoDTO registrarPessoa(Pessoa pessoa) {
@@ -64,7 +60,7 @@ public class PessoaBOImpl implements PessoaBO {
 			retorno.setId(pessoa.getId());
 			retorno.setTicketAcesso(ticketAcessoBO.gerarTicket(pessoa.getId()));
 			retorno.setNome(pessoa.getName());
-			retorno.setEmpresa(empresaUsuarioDAO.adquirirEmpresaUsuario(pessoa.getId()));
+			// retorno.setEmpresa(empresaUsuarioDAO.adquirirEmpresaUsuario(pessoa.getId()));
 		}
 		return retorno;
 	}

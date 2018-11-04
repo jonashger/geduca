@@ -17,6 +17,9 @@
         <dependent-module archiveName="snakeyaml.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/yaml/snakeyaml/1.13/snakeyaml-1.13.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="postgresql.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/postgresql/postgresql/42.2.5/postgresql-42.2.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="querydsl-jpa.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/mysema/querydsl/querydsl-jpa/3.7.4/querydsl-jpa-3.7.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -54,6 +57,18 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="activation.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/activation/activation/1.1.1/activation-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="eclipselink.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/persistence/eclipselink/2.7.3/eclipselink-2.7.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.persistence.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/persistence/javax.persistence/2.2.1/javax.persistence-2.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commonj.sdo.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/eclipse/persistence/commonj.sdo/2.1.1/commonj.sdo-2.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.json-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/json/javax.json-api/1.1.2/javax.json-api-1.1.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

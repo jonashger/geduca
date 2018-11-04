@@ -1,5 +1,6 @@
 package br.net.fireup.geduca.service;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,5 +19,12 @@ public interface EmpresaService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public ValorBooleanoDTO salvar(Empresa pessoa) throws ServerException;
+
+	@POST
+	@Path("/teste")
+	@PermitAll
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public String teste() throws ServerException;
 
 }

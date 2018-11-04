@@ -59,14 +59,18 @@
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.temp.use_jdbc_metadata_defaults"
-				value="false" />
+			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
+			<property name="hibernate.multiTenancy" value="SCHEMA"/>
+            <property name="hibernate.tenant_identifier_resolver" value="br.net.fireup.geduca.database.SchemaResolver"/>
+            <property name="hibernate.multi_tenant_connection_provider" value="br.net.fireup.geduca.database.MultiTenantProvider"/>
 			<property name="hibernate.connection.autoReconnect" value="true" />
 			<property name="hibernate.connection.autoReconnectForPools"
 				value="true" />
 			<property name="hibernate.connection.autocommit" value="false" />
-
+			<property name="eclipselink.jdbc.allow-native-sql-queries" value="true" />
+			<property name="eclipselink.jdbc.exclusive-connection.mode" value="Always" /> 
 			<property name="hibernate.use_sql_comments" value="true" />
+     		<property name="eclipselink.logging.level" value="INFO"/>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 

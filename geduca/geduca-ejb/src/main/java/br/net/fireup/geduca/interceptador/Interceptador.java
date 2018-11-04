@@ -14,6 +14,7 @@ import org.jboss.resteasy.core.ResourceMethodInvoker;
 
 import br.net.fireup.geduca.annotation.LoggerUtil;
 import br.net.fireup.geduca.bo.InterceptadorBO;
+import br.net.fireup.geduca.tenancy.TenantHolder;
 import br.net.fireup.geduca.vo.ExceptionRestVO;
 
 @Provider
@@ -29,14 +30,16 @@ public class Interceptador implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext request) throws IOException {
 		logger.info("Executando o método filter.");
-
 		ResourceMethodInvoker methodInvoker = (ResourceMethodInvoker) request
 				.getProperty("org.jboss.resteasy.core.ResourceMethodInvoker");
 
+		String host = request.getUriInfo().getBaseUri().getHost();
+		host = host.substring(0, host.indexOf('.'));
+
+		TenantHolder.setTenant(host);
 		Method method = methodInvoker.getMethod();
 
 		try {
-
 			if (interceptadorBO.requerAutentificacao(method)) {
 				String ticketAcesso = interceptadorBO.obterTicketAcessoHeader(request);
 				interceptadorBO.validarTicketAcesso(ticketAcesso);
@@ -46,6 +49,7 @@ public class Interceptador implements ContainerRequestFilter {
 			request.abortWith(Response.status(Response.Status.UNAUTHORIZED)
 					.entity(new ExceptionRestVO(e.getCodigo(), e.getMensagem(), e.getMensagemTecnica())).build());
 		}
+
 	}
 
 }
